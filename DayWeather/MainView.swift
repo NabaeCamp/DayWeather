@@ -8,13 +8,15 @@
 import UIKit
 import NMapsMap
 import SnapKit
+import CoreLocation
 
 class MainView: UIViewController {
 
     private let viewModel = WeatherViewModel()
     private var temperatureLabel: UILabel!
     private var cityLabel: UILabel!
-
+    private var naverMapView: NMFNaverMapView!
+    private var locationManager: CLLocationManager!
 
 
 
@@ -24,6 +26,15 @@ class MainView: UIViewController {
         setupBackgroundImage()
         setupBackgroundImage()
         setupNaverMapView()
+
+        // CLLocationManager를 설정하고 시작합니다.
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+
+
+
         setupLocationLabel()
         setupCityLabel()
         setupTemperatureLabel()
@@ -31,7 +42,7 @@ class MainView: UIViewController {
         setupSecondCustomButton()
         setupThirdCustomButton()
 
-        
+
         fetchWeatherData()
 
         setupRefreshButton()
@@ -54,7 +65,7 @@ class MainView: UIViewController {
         let mapViewContainer = UIView()
         view.addSubview(mapViewContainer)
 
-        
+
 
 
         mapViewContainer.snp.makeConstraints { make in
@@ -86,7 +97,7 @@ class MainView: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.clipsToBounds = true  // 이 부분은 모서리 반올림 부분을 잘라내기 위해 추가
     }
-    
+
 
 
 
@@ -178,7 +189,7 @@ class MainView: UIViewController {
         refreshButton.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.7)
         refreshButton.layer.cornerRadius = 10
 
-        // Auto layout 설정 
+        // Auto layout 설정
         refreshButton.snp.makeConstraints { make in
             make.width.equalTo(40)  // 이미지의 크기에 따라 조정
             make.height.equalTo(40)
@@ -217,7 +228,7 @@ class MainView: UIViewController {
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
 
-    
+
 
     @objc private func buttonTapped() {
         // 버튼이 클릭될 때 수행할 동작
@@ -288,5 +299,23 @@ class MainView: UIViewController {
 
 
 }
+
+// MARK: - CLLocationManagerDelegate Extension
+extension MainView: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last, let mapView = naverMapView {
+            let coordinate = location.coordinate
+
+            // 지도에 마커를 추가합니다.
+            let marker = NMFMarker()
+            marker.position = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
+            marker.mapView = mapView.mapView
+
+            // 지도의 중심을 현재 위치로 이동합니다.
+            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)))
+        }
+    }
+}
+
 
 
