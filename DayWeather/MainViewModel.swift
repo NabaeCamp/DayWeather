@@ -8,6 +8,10 @@
 import Foundation
 
 class WeatherViewModel {
+
+    var cityName: String?
+
+
     private var weatherDataManager = WeatherDataManager()
     var temperature: String? // 온도를 String으로 저장
 
@@ -22,8 +26,10 @@ class WeatherViewModel {
             if let data = data {
                 let celsiusTemperature = data.main.temp - 273.15
                 self?.temperature = "\(Int(celsiusTemperature))º"
+                self?.cityName = data.name
                 completion()
             }
+
 
         }
     }

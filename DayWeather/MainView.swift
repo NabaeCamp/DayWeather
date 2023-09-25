@@ -13,6 +13,8 @@ class MainView: UIViewController {
 
     private let viewModel = WeatherViewModel()
     private var temperatureLabel: UILabel!  // 클래스 프로퍼티로 추가
+    private var cityLabel: UILabel!
+
 
 
 
@@ -114,65 +116,56 @@ class MainView: UIViewController {
 
     }
 
-    private func setupCityLabel()  {
-        let label = UILabel()
-        view.addSubview(label)
+    private func setupCityLabel() {
+        cityLabel = UILabel()
+        view.addSubview(cityLabel)
 
-        label.text = "서울특별시"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 32)
-        label.attributedText = NSMutableAttributedString(string: "서울특별시", attributes: [NSAttributedString.Key.kern: -0.54])
+        cityLabel.text = "서울특별시"
+        cityLabel.textColor = .white
+        cityLabel.font = UIFont.systemFont(ofSize: 32)
+        cityLabel.attributedText = NSMutableAttributedString(string: "서울특별시", attributes: [NSAttributedString.Key.kern: -0.54])
 
         // 그림자 효과
-        label.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        label.layer.shadowOpacity = 1
-        label.layer.shadowRadius = 2
-        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        cityLabel.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        cityLabel.layer.shadowOpacity = 1
+        cityLabel.layer.shadowRadius = 2
+        cityLabel.layer.shadowOffset = CGSize(width: 0, height: 2)
 
         // Auto layout 설정
-        label.numberOfLines = 1
-        label.snp.makeConstraints { make in
+        cityLabel.numberOfLines = 1
+        cityLabel.snp.makeConstraints { make in
             // make.width.equalTo(200)  // 이 줄을 제거
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(160)
         }
-
-
-
-
     }
 
-    private func setupTemperatureLabel()  {
-        temperatureLabel = UILabel()  // 이 부분 수정
 
-        let label = UILabel()
-        view.addSubview(label)
+    private func setupTemperatureLabel() {
+        temperatureLabel = UILabel()
+        view.addSubview(temperatureLabel)
 
-        label.text = "26º"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 32)
-        label.attributedText = NSMutableAttributedString(string: "26º", attributes: [NSAttributedString.Key.kern: -1.53])
+        temperatureLabel.text = "2º"
+        temperatureLabel.textColor = .white
+        temperatureLabel.font = UIFont.systemFont(ofSize: 32)
+        temperatureLabel.attributedText = NSMutableAttributedString(string: "2º", attributes: [NSAttributedString.Key.kern: -1.53])
 
         // 그림자 효과
-        label.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        label.layer.shadowOpacity = 1
-        label.layer.shadowRadius = 4
-        label.layer.shadowOffset = CGSize(width: 0, height: 4)
+        temperatureLabel.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        temperatureLabel.layer.shadowOpacity = 1
+        temperatureLabel.layer.shadowRadius = 4
+        temperatureLabel.layer.shadowOffset = CGSize(width: 0, height: 4)
 
         // Auto layout 설정
-        label.numberOfLines = 1
-        label.snp.makeConstraints { make in
-            // make.width.equalTo(100)  // 이 줄을 제거
+        temperatureLabel.numberOfLines = 1
+        temperatureLabel.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(220)
         }
-
-
-
-
     }
+
 
     private func setupCustomButton() {
         let button = UIButton()
@@ -250,13 +243,18 @@ class MainView: UIViewController {
 
 
     // 날씨 데이터를 가져오는 메서드
-     func fetchWeatherData() {
-         viewModel.fetchWeatherData(lat: 37.5665, lon: 126.9780) { [weak self] in
-             DispatchQueue.main.async {
-                 self?.temperatureLabel.text = self?.viewModel.temperature
-             }
-         }
-     }
+    func fetchWeatherData() {
+        viewModel.fetchWeatherData(lat: 37.5665, lon: 126.9780) { [weak self] in
+            DispatchQueue.main.async {
+                self?.temperatureLabel.text = self?.viewModel.temperature
+                // 지역 이름을 업데이트하는 라벨이 cityLabel이라고 가정합니다.
+                self?.cityLabel.text = self?.viewModel.cityName
+                // 화면 갱신을 위해 setNeedsDisplay 호출
+                self?.view.setNeedsDisplay()
+            }
+        }
+    }
+
 
 }
 
