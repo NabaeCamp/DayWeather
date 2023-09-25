@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
+		072D5C372AC153D900A895BC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 072D5C362AC153D900A895BC /* SnapKit */; };
 		BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B12AC12DE500B08252 /* AppDelegate.swift */; };
 		BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */; };
 		BD25D3B62AC12DE500B08252 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B52AC12DE500B08252 /* ViewController.swift */; };
@@ -16,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		BD25D3AE2AC12DE500B08252 /* DayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD25D3B12AC12DE500B08252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				072D5C372AC153D900A895BC /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +60,7 @@
 		BD25D3B02AC12DE500B08252 /* DayWeather */ = {
 			isa = PBXGroup;
 			children = (
+				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
 				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
 				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
 				BD25D3B52AC12DE500B08252 /* ViewController.swift */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = DayWeather;
+			packageProductDependencies = (
+				072D5C362AC153D900A895BC /* SnapKit */,
+			);
 			productName = DayWeather;
 			productReference = BD25D3AE2AC12DE500B08252 /* DayWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,9 @@
 				Base,
 			);
 			mainGroup = BD25D3A52AC12DE500B08252;
+			packageReferences = (
+				072D5C352AC153D900A895BC /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = BD25D3AF2AC12DE500B08252 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +151,7 @@
 			files = (
 				BD25D3B62AC12DE500B08252 /* ViewController.swift in Sources */,
 				BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */,
+				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +368,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		072D5C352AC153D900A895BC /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		072D5C362AC153D900A895BC /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 072D5C352AC153D900A895BC /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD25D3A62AC12DE500B08252 /* Project object */;
 }
