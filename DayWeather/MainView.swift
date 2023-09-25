@@ -17,6 +17,8 @@ class MainView: UIViewController {
     private var cityLabel: UILabel!
     private var naverMapView: NMFNaverMapView!
     private var locationManager: CLLocationManager!
+    private var marker: NMFMarker?
+
 
 
 
@@ -43,7 +45,7 @@ class MainView: UIViewController {
         setupThirdCustomButton()
 
 
-        fetchWeatherData()
+        fetchWeatherData(at: 37.5665, lon: 126.9780)
 
         setupRefreshButton()
 
@@ -65,9 +67,6 @@ class MainView: UIViewController {
         let mapViewContainer = UIView()
         view.addSubview(mapViewContainer)
 
-
-
-
         mapViewContainer.snp.makeConstraints { make in
             make.width.equalTo(353)
             make.height.equalTo(351)
@@ -77,7 +76,7 @@ class MainView: UIViewController {
 
         addShadowAndRoundedCorners(to: mapViewContainer)
 
-        let naverMapView = NMFNaverMapView(frame: mapViewContainer.bounds)
+        naverMapView = NMFNaverMapView(frame: mapViewContainer.bounds) // 여기서 naverMapView를 초기화합니다.
         mapViewContainer.addSubview(naverMapView)
         naverMapView.showCompass = true
         naverMapView.showScaleBar = true
@@ -87,7 +86,28 @@ class MainView: UIViewController {
         naverMapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        // 탭 제스처 인식기 설정
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
+        naverMapView.mapView.addGestureRecognizer(tapRecognizer)
     }
+
+    @objc private func handleMapTap(_ recognizer: UITapGestureRecognizer) {
+        let location = recognizer.location(in: naverMapView.mapView)
+        let coordinate = naverMapView.mapView.projection.latlng(from: location)
+
+        // 기존 마커를 제거
+        marker?.mapView = nil
+
+        // 새로운 마커를 추가
+        marker = NMFMarker()
+        marker?.position = coordinate
+        marker?.mapView = naverMapView.mapView
+
+        // 날씨 데이터 조회
+        fetchWeatherData(at: coordinate.lat, lon: coordinate.lng)
+    }
+
 
     private func addShadowAndRoundedCorners(to view: UIView) {
         view.layer.cornerRadius = 10  // 이 값을 조절하여 모서리 반올림 크기를 변경
@@ -203,7 +223,8 @@ class MainView: UIViewController {
 
 
     @objc private func refreshButtonTapped() {
-        fetchWeatherData()
+        let center = naverMapView.mapView.cameraPosition.target
+        fetchWeatherData(at: center.lat, lon: center.lng)
     }
 
 
@@ -285,17 +306,16 @@ class MainView: UIViewController {
 
 
     // 날씨 데이터를 가져오는 메서드
-    func fetchWeatherData() {
-        viewModel.fetchWeatherData(lat: 37.5665, lon: 126.9780) { [weak self] in
+    func fetchWeatherData(at lat: Double, lon: Double) {
+        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
             DispatchQueue.main.async {
                 self?.temperatureLabel.text = self?.viewModel.temperature
-                // 지역 이름을 업데이트하는 라벨이 cityLabel이라고 가정합니다.
                 self?.cityLabel.text = self?.viewModel.cityName
-                // 화면 갱신을 위해 setNeedsDisplay 호출
                 self?.view.setNeedsDisplay()
             }
         }
     }
+
 
 
 }
@@ -306,10 +326,13 @@ extension MainView: CLLocationManagerDelegate {
         if let location = locations.last, let mapView = naverMapView {
             let coordinate = location.coordinate
 
-            // 지도에 마커를 추가합니다.
-            let marker = NMFMarker()
-            marker.position = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
-            marker.mapView = mapView.mapView
+            // 기존 마커를 제거
+            marker?.mapView = nil
+
+            // 새로운 마커를 추가
+            marker = NMFMarker()
+            marker?.position = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
+            marker?.mapView = mapView.mapView
 
             // 지도의 중심을 현재 위치로 이동합니다.
             mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)))
@@ -319,3 +342,11 @@ extension MainView: CLLocationManagerDelegate {
 
 
 
+
+// MARK: - NMFMapViewCameraDelegate Extension
+extension MainView: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        let center = mapView.cameraPosition.target
+        fetchWeatherData(at: center.lat, lon: center.lng)
+    }
+}
