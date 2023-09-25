@@ -10,10 +10,10 @@ import Foundation
 class WeatherViewModel {
 
     var cityName: String?
+    var temperature: String? // 온도를 String으로 저장
 
 
     private var weatherDataManager = WeatherDataManager()
-    var temperature: String? // 온도를 String으로 저장
 
     // 날씨 데이터를 가져오는 메서드
     func fetchWeatherData(lat: Double, lon: Double, completion: @escaping () -> Void) {

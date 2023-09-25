@@ -12,7 +12,7 @@ import SnapKit
 class MainView: UIViewController {
 
     private let viewModel = WeatherViewModel()
-    private var temperatureLabel: UILabel!  // 클래스 프로퍼티로 추가
+    private var temperatureLabel: UILabel!
     private var cityLabel: UILabel!
 
 
@@ -33,6 +33,9 @@ class MainView: UIViewController {
 
         
         fetchWeatherData()
+
+        setupRefreshButton()
+
 
     }
 
@@ -134,7 +137,6 @@ class MainView: UIViewController {
         // Auto layout 설정
         cityLabel.numberOfLines = 1
         cityLabel.snp.makeConstraints { make in
-            // make.width.equalTo(200)  // 이 줄을 제거
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(160)
@@ -165,6 +167,35 @@ class MainView: UIViewController {
             make.top.equalToSuperview().offset(220)
         }
     }
+
+    private func setupRefreshButton() {
+        let refreshButton = UIButton()
+        view.addSubview(refreshButton)
+
+        // 이미지로 버튼 설정
+        refreshButton.setImage(UIImage(named: "Refresh"), for: .normal)  // "refreshIcon"은 Assets에 추가한 이미지 이름입니다.
+
+        refreshButton.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.7)
+        refreshButton.layer.cornerRadius = 10
+
+        // Auto layout 설정 
+        refreshButton.snp.makeConstraints { make in
+            make.width.equalTo(40)  // 이미지의 크기에 따라 조정
+            make.height.equalTo(40)
+            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(60)
+        }
+
+        // 버튼 액션 추가
+        refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
+    }
+
+
+    @objc private func refreshButtonTapped() {
+        fetchWeatherData()
+    }
+
+
 
 
     private func setupCustomButton() {
