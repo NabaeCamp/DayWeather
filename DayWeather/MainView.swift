@@ -11,6 +11,11 @@ import SnapKit
 
 class MainView: UIViewController {
 
+    private let viewModel = WeatherViewModel()
+    private var temperatureLabel: UILabel!  // 클래스 프로퍼티로 추가
+
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +29,8 @@ class MainView: UIViewController {
         setupSecondCustomButton()
         setupThirdCustomButton()
 
+        
+        fetchWeatherData()
 
     }
 
@@ -137,6 +144,8 @@ class MainView: UIViewController {
     }
 
     private func setupTemperatureLabel()  {
+        temperatureLabel = UILabel()  // 이 부분 수정
+
         let label = UILabel()
         view.addSubview(label)
 
@@ -238,6 +247,16 @@ class MainView: UIViewController {
         // 버튼이 클릭될 때 수행할 동작
         print("Third button was tapped!")
     }
+
+
+    // 날씨 데이터를 가져오는 메서드
+     func fetchWeatherData() {
+         viewModel.fetchWeatherData(lat: 37.5665, lon: 126.9780) { [weak self] in
+             DispatchQueue.main.async {
+                 self?.temperatureLabel.text = self?.viewModel.temperature
+             }
+         }
+     }
 
 }
 
