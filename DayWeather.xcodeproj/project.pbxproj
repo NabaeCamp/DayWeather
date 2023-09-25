@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
 		26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C13DC22AC173E20034FC64 /* PlayListView.swift */; };
 		6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */; };
-		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
-		072D5C372AC153D900A895BC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 072D5C362AC153D900A895BC /* SnapKit */; };
 		BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B12AC12DE500B08252 /* AppDelegate.swift */; };
 		BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */; };
 		BD25D3B62AC12DE500B08252 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B52AC12DE500B08252 /* MainView.swift */; };
@@ -18,18 +17,17 @@
 		BD25D3BB2AC12DE700B08252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BA2AC12DE700B08252 /* Assets.xcassets */; };
 		BD25D3BE2AC12DE700B08252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */; };
 		FF438A562AC140B50032B8BF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A552AC140B50032B8BF /* SnapKit */; };
-		FF438A582AC140B50032B8BF /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A572AC140B50032B8BF /* SnapKit-Dynamic */; };
 		FF438A5A2AC156620032B8BF /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF438A592AC156620032B8BF /* Property List.plist */; };
 		FF438A5C2AC15B0D0032B8BF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */; };
 		FF438A5E2AC15B330032B8BF /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF438A5D2AC15B330032B8BF /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		126C3AD37CE7936D64F6F834 /* Pods-DayWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.debug.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.debug.xcconfig"; sourceTree = "<group>"; };
 		26C13DC22AC173E20034FC64 /* PlayListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListView.swift; sourceTree = "<group>"; };
 		2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DayWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E0A31C5ACD31679A8FC0FCF /* Pods-DayWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.release.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.release.xcconfig"; sourceTree = "<group>"; };
-		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		BD25D3AE2AC12DE500B08252 /* DayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD25D3B12AC12DE500B08252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,7 +48,6 @@
 			files = (
 				6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */,
 				FF438A562AC140B50032B8BF /* SnapKit in Frameworks */,
-				FF438A582AC140B50032B8BF /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +128,6 @@
 			name = DayWeather;
 			packageProductDependencies = (
 				FF438A552AC140B50032B8BF /* SnapKit */,
-				FF438A572AC140B50032B8BF /* SnapKit-Dynamic */,
 			);
 			productName = DayWeather;
 			productReference = BD25D3AE2AC12DE500B08252 /* DayWeather.app */;
@@ -477,11 +473,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FF438A542AC140B50032B8BF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		FF438A572AC140B50032B8BF /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FF438A542AC140B50032B8BF /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
