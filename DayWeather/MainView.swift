@@ -252,9 +252,13 @@ class MainView: UIViewController {
 
 
     @objc private func buttonTapped() {
-        // 버튼이 클릭될 때 수행할 동작
-        print("Button was tapped!")
+        // WearingViewController의 인스턴스를 생성합니다.
+        let wearingVC = WearingViewController()
+
+        // 모달로 표시합니다.
+        self.present(wearingVC, animated: true, completion: nil)
     }
+
 
     private func setupSecondCustomButton() {
         let button = UIButton()
@@ -276,9 +280,13 @@ class MainView: UIViewController {
     }
 
     @objc private func secondButtonTapped() {
-        // 버튼이 클릭될 때 수행할 동작
-        print("Second button was tapped!")
+        // WearingViewController의 인스턴스를 생성합니다.
+        let wearingVC = PlayListView()
+
+        // 모달로 표시합니다.
+        self.present(wearingVC, animated: true, completion: nil)
     }
+
 
     private func setupThirdCustomButton() {
         let button = UIButton()
