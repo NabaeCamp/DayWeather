@@ -37,4 +37,8 @@ final class FoodCollectionViewCell: UICollectionViewCell {
             make.edges.equalToSuperview()
         }
     }
+    
+    func setImage(with image: String) {
+        imageView.image = UIImage(named: image)
+    }
 }
