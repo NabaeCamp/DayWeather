@@ -21,12 +21,12 @@ class FoodPairing: UIViewController {
         return layout
     }()
     
-    lazy var collectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
-        collection.dataSource = self
-        collection.delegate = self
-        return collection
-    }()
+//    lazy var collectionView: UICollectionView = {
+//        let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
+//        collection.dataSource = self
+//        collection.delegate = self
+//        return collection
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,12 +66,12 @@ extension FoodPairing: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension FoodPairing: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
-    }
-}
+//extension FoodPairing: UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        <#code#>
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        <#code#>
+//    }
+//}
