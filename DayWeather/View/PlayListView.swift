@@ -28,13 +28,13 @@ class PlayListView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         setupUI()
     }
    
     // MARK: - UI
     
     func setupUI() {
+        view.backgroundColor = .systemBackground
         setupBackgroundImageView()
         setupDismissButton()
         setupTitleLabel()
