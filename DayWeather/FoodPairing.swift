@@ -18,15 +18,22 @@ class FoodPairing: UIViewController {
     private let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 8
+        layout.itemSize = CGSize(width: 60, height: 60)
         return layout
     }()
     
-//    lazy var collectionView: UICollectionView = {
-//        let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
-//        collection.dataSource = self
-//        collection.delegate = self
-//        return collection
-//    }()
+    lazy var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
+        collection.dataSource = self
+        collection.delegate = self
+        collection.isScrollEnabled = true
+        collection.showsHorizontalScrollIndicator = true
+        collection.backgroundColor = .white
+        collection.register(FoodCollectionViewCell.self, forCellWithReuseIdentifier: FoodCollectionViewCell.identifier)
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +41,10 @@ class FoodPairing: UIViewController {
     }
     
     func setup() {
-        [backgroundImg, subDescriptionLabel, descriptionLabel].forEach{ view.addSubview($0) }
+        [backgroundImg, subDescriptionLabel, descriptionLabel, collectionView].forEach{ view.addSubview($0) }
         setBackground()
         setUIComponents()
+        setCollectionView()
     }
     
     func setBackground() {
@@ -59,6 +67,15 @@ class FoodPairing: UIViewController {
             make.leading.equalToSuperview().offset(26)
         }
     }
+    
+    func setCollectionView() {
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(19)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(60)
+        }
+    }
 }
 
     //MARK: - Extension
@@ -66,12 +83,17 @@ extension FoodPairing: UICollectionViewDelegateFlowLayout {
     
 }
 
-//extension FoodPairing: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        <#code#>
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        <#code#>
-//    }
-//}
+extension FoodPairing: UICollectionViewDelegate {
+    
+}
+
+extension FoodPairing: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodCollectionViewCell.identifier, for: indexPath) as! FoodCollectionViewCell
+        return cell
+    }
+}
