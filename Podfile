@@ -5,8 +5,8 @@ target 'DayWeather' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'NMapsMap'
-
   # Pods for DayWeather
+pod 'NMapsMap'
 
-end
+
+end 

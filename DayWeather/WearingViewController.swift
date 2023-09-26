@@ -181,9 +181,15 @@ class WearingViewController: UIViewController {
         super.viewDidLoad()
         
         addSubViewAll()
+        xBtn.addTarget(self, action: #selector(dismissBtnClick), for: .touchUpInside)
         
 
     }
+    
+    @objc func dismissBtnClick(){
+        self.dismiss(animated: true)
+    }
+
     
     func addSubViewAll(){
         [allScreen,xBtn,tempLabel,titleLabel,subTitle,noticeView,noticeIcon,noticeLabel,clothViewType1,clothViewLabel1,clothViewType2,clothViewLabel2,clothViewType3,clothViewLabel3,clothViewType4,clothViewLabel4,clothViewType5,clothViewType6].forEach{
