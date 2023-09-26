@@ -18,7 +18,22 @@ class FoodPairing: UIViewController {
     let subDescriptionLabel = makeLabel(withText: "이렇게", size: 12)
     let descriptionLabel = makeLabel(withText: "비가 오는 날이면...", size: 26)
     let secondaryDescriptionLabel = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
+    let nearbyInfoLabel = makeLabel(withText: "테스트 라벨", size: 32)
+    let nearbyInfoLabel2 = makeLabel(withText: "테스트 라벨22", size: 80)
     let naverMapView = NMFNaverMapView()
+    
+    private let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.showsVerticalScrollIndicator = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -42,18 +57,34 @@ class FoodPairing: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupUI()
     }
     
-    func setup() {
-        [backgroundImg, subDescriptionLabel, descriptionLabel, collectionView, secondaryDescriptionLabel, naverMapView].forEach{ view.addSubview($0) }
+    func setupUI() {
+        [scrollView, backgroundImg].forEach{ view.addSubview($0) }
+        [subDescriptionLabel, descriptionLabel, collectionView, secondaryDescriptionLabel, naverMapView, nearbyInfoLabel, nearbyInfoLabel2 ].forEach{ contentView.addSubview($0) }
+        enableScroll()
         setBackground()
         setUIComponents()
         setCollectionView()
         setNaverMap()
+        setNearbyInfo()
+    }
+    
+    func enableScroll() {
+        scrollView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalToSuperview()
+        }
+        
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+        }
     }
     
     func setBackground() {
+        view.sendSubviewToBack(backgroundImg)
         backgroundImg.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
@@ -64,26 +95,26 @@ class FoodPairing: UIViewController {
     
     func setUIComponents() {
         subDescriptionLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(26)
-            make.top.equalToSuperview().offset(126)
+            make.leading.equalTo(contentView.snp.leading).offset(26)
+            make.top.equalTo(contentView.snp.top).offset(126)
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(subDescriptionLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(26)
+            make.leading.equalTo(contentView.snp.leading).offset(26)
         }
         
         secondaryDescriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(9)
-            make.leading.equalToSuperview().offset(26)
+            make.leading.equalTo(contentView.snp.leading).offset(26)
         }
     }
     
     func setCollectionView() {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(19)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.leading.equalTo(contentView.snp.leading)
+            make.trailing.equalTo(contentView.snp.trailing)
             make.height.equalTo(60)
         }
     }
@@ -93,19 +124,29 @@ class FoodPairing: UIViewController {
 
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondaryDescriptionLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.trailing.equalToSuperview().inset(20)
+//            make.leading.equalTo(contentView.snp.leading).offset(20)
+//            make.trailing.equalTo(contentView.snp.trailing).offset(-20)
             make.width.equalTo(353)
             make.height.equalTo(353)
+        }
+    }
+    
+    func setNearbyInfo() {
+        nearbyInfoLabel.snp.makeConstraints { make in
+            make.top.equalTo(naverMapView.snp.bottom).offset(20)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        nearbyInfoLabel2.snp.makeConstraints { make in
+            make.top.equalTo(nearbyInfoLabel.snp.bottom).offset(40)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.bottom.equalToSuperview().inset(100)
         }
     }
 }
 
     //MARK: - Extension
-extension FoodPairing: UICollectionViewDelegateFlowLayout {
-    
-}
-
 extension FoodPairing: UICollectionViewDelegate {
     
 }

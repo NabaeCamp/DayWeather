@@ -18,6 +18,7 @@ func addImage(withImage image: String) -> UIImageView {
 func makeLabel(withText text: String, size: CGFloat) -> UILabel {
     let label = UILabel()
     label.text = text
+    label.textColor = .white
     label.font = UIFont.systemFont(ofSize: size)
     label.shadowColor = .black
     label.shadowOffset = CGSize(width: 0, height: -1)
