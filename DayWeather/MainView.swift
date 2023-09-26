@@ -68,11 +68,12 @@ class MainView: UIViewController {
         view.addSubview(mapViewContainer)
 
         mapViewContainer.snp.makeConstraints { make in
-            make.width.equalTo(353)
             make.height.equalTo(351)
             make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20) // 화면 오른쪽 끝에서 20의 간격을 유지
             make.top.equalToSuperview().offset(305)
         }
+
 
         addShadowAndRoundedCorners(to: mapViewContainer)
 
@@ -106,7 +107,11 @@ class MainView: UIViewController {
 
         // 날씨 데이터 조회
         fetchWeatherData(at: coordinate.lat, lon: coordinate.lng)
+
+        // 위치 업데이트 중지
+        locationManager.stopUpdatingLocation()
     }
+
 
 
     private func addShadowAndRoundedCorners(to view: UIView) {
@@ -225,7 +230,11 @@ class MainView: UIViewController {
     @objc private func refreshButtonTapped() {
         let center = naverMapView.mapView.cameraPosition.target
         fetchWeatherData(at: center.lat, lon: center.lng)
+
+        // 위치 업데이트 재시작
+        locationManager.startUpdatingLocation()
     }
+
 
 
 
@@ -237,10 +246,10 @@ class MainView: UIViewController {
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
 
-        // Auto layout 설정
+        // 첫 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(111)
-            make.height.equalTo(110)
+            make.width.equalTo(100)
+            make.height.equalTo(100)
             make.leading.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(679)
         }
@@ -267,11 +276,11 @@ class MainView: UIViewController {
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
 
-        // Auto layout 설정
+        // 두 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(111)
-            make.height.equalTo(110)
-            make.leading.equalToSuperview().offset(141)
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+            make.leading.equalTo(self.view).offset(141)
             make.top.equalToSuperview().offset(679)
         }
 
@@ -295,11 +304,11 @@ class MainView: UIViewController {
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
 
-        // Auto layout 설정
+        // 세 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(111)
-            make.height.equalTo(110)
-            make.leading.equalToSuperview().offset(262)
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+            make.leading.equalTo(self.view).offset(262)
             make.top.equalToSuperview().offset(679)
         }
 
@@ -310,6 +319,11 @@ class MainView: UIViewController {
     @objc private func thirdButtonTapped() {
         // 버튼이 클릭될 때 수행할 동작
         print("Third button was tapped!")
+
+        let wearingVC = FoodPairing()
+
+        // 모달로 표시합니다.
+        self.present(wearingVC, animated: true, completion: nil)
     }
 
 
