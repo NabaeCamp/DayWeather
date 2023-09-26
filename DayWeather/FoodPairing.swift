@@ -89,6 +89,8 @@ class FoodPairing: UIViewController {
     }
     
     func setNaverMap() {
+        giveShadowAndRoundedCorners(to: naverMapView)
+
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondaryDescriptionLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().offset(20)
