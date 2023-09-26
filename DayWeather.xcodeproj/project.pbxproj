@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
+		26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */; };
 		26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C13DC22AC173E20034FC64 /* PlayListView.swift */; };
 		6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */; };
 		BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B12AC12DE500B08252 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		126C3AD37CE7936D64F6F834 /* Pods-DayWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.debug.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListCollectionViewCell.swift; sourceTree = "<group>"; };
 		26C13DC22AC173E20034FC64 /* PlayListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListView.swift; sourceTree = "<group>"; };
 		2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DayWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E0A31C5ACD31679A8FC0FCF /* Pods-DayWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.release.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
 				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
 				BDB634A62AC1A46A00540602 /* Factory.swift */,
+				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
 				BD25D3B72AC12DE500B08252 /* Main.storyboard */,
 				BD25D3BA2AC12DE700B08252 /* Assets.xcassets */,
 				FF438A592AC156620032B8BF /* Property List.plist */,
@@ -236,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */,
 				26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */,
 				FF438A5E2AC15B330032B8BF /* MainViewModel.swift in Sources */,
 				BD25D3B62AC12DE500B08252 /* MainView.swift in Sources */,
