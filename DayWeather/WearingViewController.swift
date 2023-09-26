@@ -13,6 +13,8 @@ class WearingViewController: UIViewController {
     
     var nowTemp = "26"
     
+    var item = ["1","2","3","4","5"]
+    
     var allScreen : UIImageView = {
         var view = UIImageView()
         view.image = UIImage(named: "clothBack")
@@ -78,121 +80,55 @@ class WearingViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         return view
     }()
-    var clothViewType1 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth1")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
+    var wearCollectionView : UICollectionView = {
+        var view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        view.backgroundColor = .clear
         return view
     }()
-    var clothViewLabel1 : UILabel = {
-        var view = UILabel()
-        view.text = "그린 레터링 맨투맨"
-        view.font = UIFont.systemFont(ofSize: 14)
-        view.textColor = .white
-        view.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        return view
-    }()
-    var clothViewType2 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth2")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
-        return view
-    }()
-    var clothViewLabel2 : UILabel = {
-        var view = UILabel()
-        view.text = "레이 스트링 카고팬츠"
-        view.font = UIFont.systemFont(ofSize: 14)
-        view.textColor = .white
-        view.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        return view
-    }()
-    var clothViewType3 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth3")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
-        return view
-    }()
-    var clothViewLabel3 : UILabel = {
-        var view = UILabel()
-        view.text = "어반 숏 스티치 비니"
-        view.font = UIFont.systemFont(ofSize: 20)
-        view.textColor = .white
-        view.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        return view
-    }()
-    var clothViewType4 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth4")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
-        return view
-    }()
-    var clothViewLabel4 : UILabel = {
-        var view = UILabel()
-        view.text = "레거시 와이어 데님 팬츠"
-        view.font = UIFont.systemFont(ofSize: 14)
-        view.textColor = .white
-        view.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        return view
-    }()
-    var clothViewType5 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth5")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
-        return view
-    }()
-    var clothViewType6 : UIImageView = {
-        var view = UIImageView()
-        view.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
-        view.layer.cornerRadius = 20
-        view.image = UIImage(named: "cloth6")
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
-        return view
-    }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addSubViewAll()
         xBtn.addTarget(self, action: #selector(dismissBtnClick), for: .touchUpInside)
-        
-
+        self.wearCollectionView.delegate = self
+        self.wearCollectionView.dataSource = self
+        self.wearCollectionView.register(WearCollectionViewCell.self, forCellWithReuseIdentifier: WearCollectionViewCell.identifier)
+        compositionalLayout()
     }
     
     @objc func dismissBtnClick(){
         self.dismiss(animated: true)
     }
-
+    
+    func compositionalLayout(){
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+                    switch sectionIndex {
+                    case 0, 1, 2, 3, 4:
+                        // Define a horizontal group (가로 스크롤) for sections 0 and 1
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(0.86))
+                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+                        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .fractionalHeight(0.5))
+                        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                        let section = NSCollectionLayoutSection(group: group)
+                        section.orthogonalScrollingBehavior = .continuous
+                        section.interGroupSpacing = 0
+                        // Add a header to the section
+                        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(30))
+                        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+                        section.boundarySupplementaryItems = [headerElement]
+                        return section
+                    default:
+                        return nil
+                    }
+                }
+                // Set the compositional layout to the collection view
+        wearCollectionView.collectionViewLayout = layout
+            }
     
     func addSubViewAll(){
-        [allScreen,xBtn,tempLabel,titleLabel,subTitle,noticeView,noticeIcon,noticeLabel,clothViewType1,clothViewLabel1,clothViewType2,clothViewLabel2,clothViewType3,clothViewLabel3,clothViewType4,clothViewLabel4,clothViewType5,clothViewType6].forEach{
+        [allScreen,xBtn,tempLabel,titleLabel,subTitle,noticeView,noticeIcon,noticeLabel,wearCollectionView].forEach{
             view?.addSubview($0)}
         configureAllScreen()
         configureXBtn()
@@ -202,17 +138,8 @@ class WearingViewController: UIViewController {
         configureNotice()
         configureNoticeIcon()
         configureNoticeLabel()
-        configureClothType1()
-        configureClothLabel1()
-        configureClothType2()
-        configureClothLabel2()
-        configureClothType3()
-        configureClothLabel3()
-        configureClothType4()
-        configureClothLabel4()
-        configureClothType5()
-        configureClothType6()
-        
+        configureWearingCollection()
+        compositionalLayout()
     }
     func configureAllScreen(){
         allScreen.snp.makeConstraints { make in
@@ -266,82 +193,42 @@ class WearingViewController: UIViewController {
             make.leading.equalTo(noticeIcon.snp.trailing).offset(12)
         }
     }
-    func configureClothType1(){
-        clothViewType1.snp.makeConstraints { make in
+    func configureWearingCollection(){
+        wearCollectionView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(20)
-            make.top.equalTo(noticeView.snp.bottom).offset(10)
-            make.width.equalTo(170)
-            make.height.equalTo(170)
-        }
-    }
-    func configureClothLabel1(){
-        clothViewLabel1.snp.makeConstraints { make in
-            make.centerX.equalTo(clothViewType1.snp.centerX)
-            make.bottom.equalTo(clothViewType1.snp.bottom).offset(-10)
-        }
-    }
-    func configureClothType2(){
-        clothViewType2.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-20)
             make.top.equalTo(noticeView.snp.bottom).offset(10)
-            make.width.equalTo(170)
-            make.height.equalTo(170)
-        }
-    }
-    func configureClothLabel2(){
-        clothViewLabel2.snp.makeConstraints { make in
-            make.centerX.equalTo(clothViewType2.snp.centerX)
-            make.bottom.equalTo(clothViewType2.snp.bottom).offset(-10)
-        }
-    }
-    func configureClothType3(){
-        clothViewType3.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-20)
-            make.leading.equalToSuperview().offset(20)
-            make.top.equalTo(clothViewType1.snp.bottom).offset(10)
-            make.height.equalTo(200)
-        }
-    }
-    func configureClothLabel3(){
-        clothViewLabel3.snp.makeConstraints { make in
-            make.centerX.equalTo(clothViewType3.snp.centerX)
-            make.bottom.equalTo(clothViewType3.snp.bottom).offset(-10)
-        }
-    }
-    func configureClothType4(){
-        clothViewType4.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
-            make.top.equalTo(clothViewType3.snp.bottom).offset(10)
-            make.width.equalTo(170)
-            make.height.equalTo(280)
-        }
-    }
-    func configureClothLabel4(){
-        clothViewLabel4.snp.makeConstraints { make in
-            make.centerX.equalTo(clothViewType4.snp.centerX)
-            make.bottom.equalTo(clothViewType4.snp.bottom).offset(-10)
-        }
-    }
-    func configureClothType5(){
-        clothViewType5.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-20)
-            make.top.equalTo(clothViewType3.snp.bottom).offset(10)
-            make.width.equalTo(82)
-            make.height.equalTo(280)
-        }
-    }
-    func configureClothType6(){
-        clothViewType6.snp.makeConstraints { make in
-            make.trailing.equalTo(clothViewType5.snp.leading).offset(-6)
-            make.top.equalTo(clothViewType3.snp.bottom).offset(10)
-            make.width.equalTo(82)
-            make.height.equalTo(280)
+            make.bottom.equalToSuperview().offset(-40)
+            
         }
     }
     
-    
-
+    private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+        .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50)),
+              elementKind: UICollectionView.elementKindSectionHeader, alignment: .top
+        )
+    }
 }
+
+extension WearingViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 5
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wearCollectionViewCell", for: indexPath) as! WearCollectionViewCell
+        return cell
+    }
+    
+    
+}
+extension WearingViewController: UICollectionViewDelegateFlowLayout{
+    
+}
+
 
 #if DEBUG
 
