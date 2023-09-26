@@ -26,9 +26,11 @@ func makeLabel(withText text: String, size: CGFloat) -> UILabel {
     return label
 }
 
-func makeButton(withText text: String) -> UIButton {
+func makeButton(withImage name: String, action: Selector, target: Any) -> UIButton {
     let button = UIButton()
-    button.setTitle(text, for: .normal)
+    let image = UIImage(systemName: name)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+    button.setImage(image, for: .normal)
+    button.addTarget(target, action: action, for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
 }
