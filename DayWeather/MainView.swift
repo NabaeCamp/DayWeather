@@ -326,10 +326,10 @@ class MainView: UIViewController {
         self.present(wearingVC, animated: true, completion: nil)
     }
 
-
+    // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
     // 날씨 데이터를 가져오는 메서드
     func fetchWeatherData(at lat: Double, lon: Double) {
-        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
+        viewModel.fetchAndProcessWeatherData(lat: lat, lon: lon) { [weak self] in
             DispatchQueue.main.async {
                 self?.temperatureLabel.text = self?.viewModel.temperature
                 self?.cityLabel.text = self?.viewModel.cityName
@@ -337,6 +337,7 @@ class MainView: UIViewController {
             }
         }
     }
+
 
 
 
