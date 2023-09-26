@@ -319,6 +319,11 @@ class MainView: UIViewController {
     @objc private func thirdButtonTapped() {
         // 버튼이 클릭될 때 수행할 동작
         print("Third button was tapped!")
+
+        let wearingVC = FoodPairing()
+
+        // 모달로 표시합니다.
+        self.present(wearingVC, animated: true, completion: nil)
     }
 
 
