@@ -18,6 +18,7 @@
 		BD25D3B92AC12DE500B08252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3B72AC12DE500B08252 /* Main.storyboard */; };
 		BD25D3BB2AC12DE700B08252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BA2AC12DE700B08252 /* Assets.xcassets */; };
 		BD25D3BE2AC12DE700B08252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */; };
+		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
 		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
 		BDB634A72AC1A46A00540602 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A62AC1A46A00540602 /* Factory.swift */; };
 		FF438A562AC140B50032B8BF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A552AC140B50032B8BF /* SnapKit */; };
@@ -42,6 +43,7 @@
 		BD25D3BA2AC12DE700B08252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD25D3BD2AC12DE700B08252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD25D3BF2AC12DE700B08252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
 		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		FF438A592AC156620032B8BF /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
 				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
 				BDB634A62AC1A46A00540602 /* Factory.swift */,
+				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
 				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
 				BD25D3B72AC12DE500B08252 /* Main.storyboard */,
 				BD25D3BA2AC12DE700B08252 /* Assets.xcassets */,
@@ -253,6 +256,7 @@
 				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
+				BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
