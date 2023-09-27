@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import NMapsMap
+import CoreLocation
 
 class FoodPairing: UIViewController {
     //MARK: - 전역 변수 선언
@@ -90,10 +91,7 @@ class FoodPairing: UIViewController {
     func setBackground() {
         view.sendSubviewToBack(backgroundImg)
         backgroundImg.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -131,14 +129,62 @@ class FoodPairing: UIViewController {
     func setNaverMap() {
         naverMapView.showLocationButton = true
         naverMapView.showZoomControls = true
+        locationManger.delegate = self
                 
         giveShadowAndRoundedCorners(to: naverMapView)
-        
+//        giveMapLocationAction(to: naverMapView)
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
             make.width.equalTo(353)
             make.height.equalTo(353)
+        }
+    }
+    
+    func giveMapLocationAction(to view: UIView) {
+        locationManger.delegate = self
+        locationManger.desiredAccuracy = kCLLocationAccuracyBest
+        locationManger.requestWhenInUseAuthorization()
+        
+//        if CLLocationManager.locationServicesEnabled() {
+//            print("위치 서비스 ON")
+//            locationManger.startUpdatingLocation()
+//            print("지금 위치는 여기입니다. \(locationManger.location?.coordinate)")
+//
+//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
+//                                                                   lng: locationManger.location?.coordinate.longitude ?? 0))
+//            cameraUpdate.animation = .easeIn
+//            naverMapView.mapView.moveCamera(cameraUpdate)
+//
+//
+//        } else {
+//            print("위치 서비스 OFF")
+//        }
+    }
+    
+    // 현 위치 관련해서 허가
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager, didChangeAuthoration status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManger.startUpdatingLocation()
+        } else {
+            print("Location이 서비스 되지 않았습니다.")
+        }
+    }
+    
+    // 현 위치를 전달 받기
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            print("새로운 위치는 \(location.coordinate) 입니다.")
+            
+            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: location.coordinate.latitude,
+                                                                   lng: location.coordinate.longitude))
+            cameraUpdate.animation = .easeIn
+            naverMapView.mapView.moveCamera(cameraUpdate)
+            
+            let marker = NMFMarker()
+            marker.position = NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
+                                        lng: locationManger.location?.coordinate.longitude ?? 0)
+            marker.mapView = naverMapView.mapView
         }
     }
     
