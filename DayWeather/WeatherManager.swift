@@ -70,6 +70,10 @@ struct Sys: Codable {
 
 
 class WeatherDataManager {
+
+    // MARK: - 변경 사항 - 싱글톤 패턴의 채택
+    static let shared = WeatherDataManager() // 싱글턴 인스턴스 생성
+
     let baseURL = "https://api.openweathermap.org/data/2.5/weather"
 
     private var apiKey: String {
@@ -89,6 +93,10 @@ class WeatherDataManager {
             return value
         }
     }
+    
+    // MARK: - 변경 사항 - 싱글톤 인스턴스의 외부 생성 방지 - 메모리 관리 측면
+    // 이 클래스의 외부에서 인스턴스를 직접 생성하는 것을 방지하기 위해 private 초기화자를 추가합니다.
+    private init() {}
 
 
     func fetchWeatherData(lat: Double, lon: Double, completion: @escaping (WeatherData?, Error?) -> Void) {
@@ -118,6 +126,23 @@ class WeatherDataManager {
             }
         }
         task.resume()
+    }
+
+    // MARK: - 변경 사항 - 날씨 데이터를 가져와서 처리하는 로직 추가
+    func processWeatherData(lat: Double, lon: Double, completion: @escaping (String?, String?, Error?) -> Void) {
+        fetchWeatherData(lat: lat, lon: lon) { (data, error) in
+            if let error = error {
+                completion(nil, nil, error)
+                return
+            }
+
+            if let data = data {
+                let celsiusTemperature = data.main.temp - 273.15
+                let temperature = "\(Int(celsiusTemperature))º"
+                let cityName = data.name
+                completion(cityName, temperature, nil)
+            }
+        }
     }
 
 }
