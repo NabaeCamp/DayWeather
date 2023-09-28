@@ -43,3 +43,18 @@ func giveShadowAndRoundedCorners(to view: UIView) {
     view.layer.shadowOffset = CGSize(width: 0, height: 4)
     view.clipsToBounds = true  // 이 부분은 모서리 반올림 부분을 잘라내기 위해 추가
 }
+
+extension UIButton {
+    var circleButton: Bool {
+        set {
+            if newValue {
+                self.layer.cornerRadius = self.frame.size.width / 2
+                print(self.frame.size.width)
+            } else {
+                self.layer.cornerRadius = 0
+            }
+        } get {
+            return false
+        }
+    }
+}

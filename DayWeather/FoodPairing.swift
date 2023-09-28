@@ -8,12 +8,13 @@
 import UIKit
 import SnapKit
 import NMapsMap
+// 현 위치를 가져오기 위한 모듈?
 import CoreLocation
 
 class FoodPairing: UIViewController {
     //MARK: - 전역 변수 선언
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
-    var locationManger = CLLocationManager()
+    var locationManager = CLLocationManager()
     
     //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
@@ -72,6 +73,7 @@ class FoodPairing: UIViewController {
         setBackground()
         setUIComponents()
         setCollectionView()
+//        setLocationManager()
         setNaverMap()
         setNearbyInfo()
     }
@@ -127,65 +129,15 @@ class FoodPairing: UIViewController {
     }
     
     func setNaverMap() {
-        naverMapView.showLocationButton = true
-        naverMapView.showZoomControls = true
-        locationManger.delegate = self
-                
         giveShadowAndRoundedCorners(to: naverMapView)
-//        giveMapLocationAction(to: naverMapView)
+        naverMapView.showLocationButton = true
+        
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.width.equalTo(353)
-            make.height.equalTo(353)
+            make.width.height.equalTo(353)
         }
-    }
-    
-    func giveMapLocationAction(to view: UIView) {
-        locationManger.delegate = self
-        locationManger.desiredAccuracy = kCLLocationAccuracyBest
-        locationManger.requestWhenInUseAuthorization()
-        
-//        if CLLocationManager.locationServicesEnabled() {
-//            print("위치 서비스 ON")
-//            locationManger.startUpdatingLocation()
-//            print("지금 위치는 여기입니다. \(locationManger.location?.coordinate)")
-//
-//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
-//                                                                   lng: locationManger.location?.coordinate.longitude ?? 0))
-//            cameraUpdate.animation = .easeIn
-//            naverMapView.mapView.moveCamera(cameraUpdate)
-//
-//
-//        } else {
-//            print("위치 서비스 OFF")
-//        }
-    }
-    
-    // 현 위치 관련해서 허가
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager, didChangeAuthoration status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
-            locationManger.startUpdatingLocation()
-        } else {
-            print("Location이 서비스 되지 않았습니다.")
-        }
-    }
-    
-    // 현 위치를 전달 받기
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
-            print("새로운 위치는 \(location.coordinate) 입니다.")
-            
-            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: location.coordinate.latitude,
-                                                                   lng: location.coordinate.longitude))
-            cameraUpdate.animation = .easeIn
-            naverMapView.mapView.moveCamera(cameraUpdate)
-            
-            let marker = NMFMarker()
-            marker.position = NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
-                                        lng: locationManger.location?.coordinate.longitude ?? 0)
-            marker.mapView = naverMapView.mapView
-        }
+        setLocationData()
     }
     
     func setNearbyInfo() {
@@ -196,6 +148,54 @@ class FoodPairing: UIViewController {
         }
     }
     
+    func setLocationData() {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        let latitude = locationManager.location?.coordinate.latitude ?? 0
+        let longitude = locationManager.location?.coordinate.longitude ?? 0
+        
+        let camerUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitude, lng: longitude))
+        naverMapView.mapView.moveCamera(camerUpdate)
+        camerUpdate.animation = .easeIn
+        
+//        let coord = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
+        //        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.5666102, lng: 126.9783881))
+        //        naverMapView.mapView.moveCamera(cameraUpdate)
+//        print("위도 \(coord.lat), 경도: \(coord.lng)")
+        //        print("현재 위치는 \(cameraUpdate)")
+    }
+    
+//    func setLocationManager() {
+//        locationManager.delegate = self
+//        locationManager = CLLocationManager()
+//        // 거리 정확도
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//
+//        // 위치 사용 허용 알림
+//        locationManager.requestWhenInUseAuthorization()
+//
+//        if CLLocationManager.locationServicesEnabled() {
+//            print("위치 서비스 허용 ON!")
+//            locationManager.startUpdatingLocation()
+//        } else {
+//            print("위치 서비스 허용 OFF!")
+//        }
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if let location = locations.first {
+//            print("위치 업데이트")
+//            print("위도: \(location.coordinate.latitude)")
+//            print("경도: \(location.coordinate.longitude)")
+//        }
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        print("에러 - \(error)")
+//    }
+//
     @objc func exitButtonTapped() {
         print("닫기 버튼이 눌렸습니다.")
         dismiss(animated: true)
@@ -225,5 +225,14 @@ extension FoodPairing: UICollectionViewDataSource {
 }
 
 extension FoodPairing: CLLocationManagerDelegate {
+    
+}
 
+extension FoodPairing: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        let latitude = mapView.cameraPosition.target.lat
+        let longitude = mapView.cameraPosition.target.lng
+        
+        print(latitude)
+    }
 }
