@@ -8,13 +8,15 @@
 import UIKit
 import SnapKit
 import NMapsMap
-// 현 위치를 가져오기 위한 모듈?
 import CoreLocation
 
 class FoodPairing: UIViewController {
     //MARK: - 전역 변수 선언
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
-    var locationManager = CLLocationManager()
+    // 이 둘은 어떤 차이점이 있을까?
+//    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
+    lazy var naverMapView: NMFNaverMapView = NMFNaverMapView(frame: view.frame)
     
     //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
@@ -24,7 +26,6 @@ class FoodPairing: UIViewController {
     let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 32)
     let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 80)
     let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
-    lazy var naverMapView       = NMFNaverMapView(frame: view.frame)
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -73,7 +74,7 @@ class FoodPairing: UIViewController {
         setBackground()
         setUIComponents()
         setCollectionView()
-//        setLocationManager()
+//        setLocationData()
         setNaverMap()
         setNearbyInfo()
     }
@@ -129,15 +130,21 @@ class FoodPairing: UIViewController {
     }
     
     func setNaverMap() {
-        giveShadowAndRoundedCorners(to: naverMapView)
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        getLocationUsagePermission()
+        
+        naverMapView.showCompass = true
+        naverMapView.showZoomControls = true
         naverMapView.showLocationButton = true
+        giveShadowAndRoundedCorners(to: naverMapView)
         
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
             make.width.height.equalTo(353)
         }
-        setLocationData()
     }
     
     func setNearbyInfo() {
@@ -148,54 +155,6 @@ class FoodPairing: UIViewController {
         }
     }
     
-    func setLocationData() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        
-        let latitude = locationManager.location?.coordinate.latitude ?? 0
-        let longitude = locationManager.location?.coordinate.longitude ?? 0
-        
-        let camerUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitude, lng: longitude))
-        naverMapView.mapView.moveCamera(camerUpdate)
-        camerUpdate.animation = .easeIn
-        
-//        let coord = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
-        //        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.5666102, lng: 126.9783881))
-        //        naverMapView.mapView.moveCamera(cameraUpdate)
-//        print("위도 \(coord.lat), 경도: \(coord.lng)")
-        //        print("현재 위치는 \(cameraUpdate)")
-    }
-    
-//    func setLocationManager() {
-//        locationManager.delegate = self
-//        locationManager = CLLocationManager()
-//        // 거리 정확도
-//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//
-//        // 위치 사용 허용 알림
-//        locationManager.requestWhenInUseAuthorization()
-//
-//        if CLLocationManager.locationServicesEnabled() {
-//            print("위치 서비스 허용 ON!")
-//            locationManager.startUpdatingLocation()
-//        } else {
-//            print("위치 서비스 허용 OFF!")
-//        }
-//    }
-//
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let location = locations.first {
-//            print("위치 업데이트")
-//            print("위도: \(location.coordinate.latitude)")
-//            print("경도: \(location.coordinate.longitude)")
-//        }
-//    }
-//
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        print("에러 - \(error)")
-//    }
-//
     @objc func exitButtonTapped() {
         print("닫기 버튼이 눌렸습니다.")
         dismiss(animated: true)
@@ -226,13 +185,31 @@ extension FoodPairing: UICollectionViewDataSource {
 
 extension FoodPairing: CLLocationManagerDelegate {
     
-}
-
-extension FoodPairing: NMFMapViewCameraDelegate {
-    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
-        let latitude = mapView.cameraPosition.target.lat
-        let longitude = mapView.cameraPosition.target.lng
+    func getLocationUsagePermission() {
+        self.locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("GPS 권한 설정됨")
+        case .restricted, .notDetermined:
+            print("GPS 권한 설정되지 않음")
+            getLocationUsagePermission()
+        case .denied:
+            print("GPS 권한 요청 거부")
+            getLocationUsagePermission()
+        default:
+            print("GPS 설정")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location: CLLocation = locations[locations.count - 1]
+        let longtitude: CLLocationDegrees = location.coordinate.longitude
+        let latitude: CLLocationDegrees = location.coordinate.latitude
         
-        print(latitude)
+        print("Longtitude: \(longtitude)")
+        print("latitude: \(latitude)")
     }
 }
