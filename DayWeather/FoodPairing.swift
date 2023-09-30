@@ -15,6 +15,9 @@ class FoodPairing: UIViewController {
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
     var infoWindow = NMFInfoWindow()
     var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
+    var locationManager = LocationManager()
+    var location: CLLocationCoordinate2D?
+    
     
 //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
@@ -23,6 +26,7 @@ class FoodPairing: UIViewController {
     let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
     let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 32)
     let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 80)
+    let locationButton          = makeButton(withImage: "magnifyingglass", action: #selector(buttonHandler), target: self)
     let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
     
     private let scrollView: UIScrollView = {
@@ -72,22 +76,10 @@ class FoodPairing: UIViewController {
         return naverMapView.mapView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        mapView.touchDelegate = self
-        infoWindow.dataSource = defaultInfoWindoImage
-//        defaultInfoWindoImage.title = "정보 창"
-        infoWindow.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
-            self?.infoWindow.close()
-            return true
-        }
-        infoWindow.mapView = mapView
-    }
-    
+//MARK: - UI Setup
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
-        [subDescriptionLabel, descriptionLabel, collectionView,
+        [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
          secondDescriptionLabel, naverMapView, nearbyInfoLabel].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
@@ -95,6 +87,7 @@ class FoodPairing: UIViewController {
         setCollectionView()
         setNaverMap()
         setNearbyInfo()
+        setupLocation()
     }
     
     func setBackground() {
@@ -120,6 +113,11 @@ class FoodPairing: UIViewController {
         exitButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().inset(20)
+        }
+        
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.snp.leading).offset(26)
+            make.top.equalTo(contentView.snp.top).offset(50)
         }
         
         subDescriptionLabel.snp.makeConstraints { make in
@@ -165,6 +163,20 @@ class FoodPairing: UIViewController {
         }
     }
     
+    func setupLocation() {
+        locationManager.fetchLocation { [weak self] (location, error) in
+            self?.location = location
+        }
+    }
+    
+    @objc func buttonHandler(_ sender: UIButton) {
+        if let unwrappedLocation = location {
+            print(unwrappedLocation)
+        } else {
+            print("location is nil")
+        }
+    }
+    
     @objc func exitButtonTapped() {
         print("닫기 버튼이 눌렸습니다.")
         dismiss(animated: true)
@@ -172,6 +184,23 @@ class FoodPairing: UIViewController {
     
     deinit {
         print("FoodPairing 화면이 내려갔습니다.")
+    }
+}
+
+//MARK: - LifeCycle 정리
+extension FoodPairing {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        //info 창 출력
+        mapView.touchDelegate = self
+        infoWindow.dataSource = defaultInfoWindoImage
+        infoWindow.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
+            self?.infoWindow.close()
+            return true
+        }
+        infoWindow.mapView = mapView
     }
 }
 
@@ -197,7 +226,7 @@ extension FoodPairing: UICollectionViewDataSource {
     }
 }
 
-//MARK: - NMFMapViewDelegate
+//MARK: - NMFMapViewTouchDelegate
 extension FoodPairing: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         infoWindow.close()
@@ -206,5 +235,21 @@ extension FoodPairing: NMFMapViewTouchDelegate {
         defaultInfoWindoImage.title = latlngStr
         infoWindow.position = latlng
         infoWindow.open(with: mapView)
+    }
+}
+
+//MARK: - CLLocationManagerDelegate
+
+extension FoodPairing: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("위치 업데이트")
+            print("위도: \(location.coordinate.latitude)")
+            print("경도: \(location.coordinate.longitude)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("에러가 발생했습니다: \(error.localizedDescription)")
     }
 }
