@@ -11,14 +11,12 @@ import NMapsMap
 import CoreLocation
 
 class FoodPairing: UIViewController {
-    //MARK: - 전역 변수 선언
+//MARK: - 전역 변수 선언
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
-    // 이 둘은 어떤 차이점이 있을까?
-//    let locationManager = CLLocationManager()
-    var locationManager: CLLocationManager!
-    lazy var naverMapView: NMFNaverMapView = NMFNaverMapView(frame: view.frame)
+    var infoWindow = NMFInfoWindow()
+    var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
     
-    //MARK: - UIComponent 선언
+//MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
     let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
     let descriptionLabel        = makeLabel(withText: "비가 오는 날이면...", size: 26)
@@ -61,22 +59,49 @@ class FoodPairing: UIViewController {
         return collection
     }()
     
+    private lazy var naverMapView: NMFNaverMapView = {
+        let map = NMFNaverMapView()
+        map.showCompass             = true
+        map.showLocationButton      = true
+        map.showZoomControls        = true
+        map.translatesAutoresizingMaskIntoConstraints = false
+        return map
+    }()
+    
+    var mapView: NMFMapView {
+        return naverMapView.mapView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        mapView.touchDelegate = self
+        infoWindow.dataSource = defaultInfoWindoImage
+//        defaultInfoWindoImage.title = "정보 창"
+        infoWindow.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
+            self?.infoWindow.close()
+            return true
+        }
+        infoWindow.mapView = mapView
     }
     
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
         [subDescriptionLabel, descriptionLabel, collectionView,
          secondDescriptionLabel, naverMapView, nearbyInfoLabel].forEach{ contentView.addSubview($0) }
-        enableScroll()
         setBackground()
+        enableScroll()
         setUIComponents()
         setCollectionView()
-//        setLocationData()
         setNaverMap()
         setNearbyInfo()
+    }
+    
+    func setBackground() {
+        view.sendSubviewToBack(backgroundImg)
+        backgroundImg.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     func enableScroll() {
@@ -88,13 +113,6 @@ class FoodPairing: UIViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-        }
-    }
-    
-    func setBackground() {
-        view.sendSubviewToBack(backgroundImg)
-        backgroundImg.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -130,14 +148,6 @@ class FoodPairing: UIViewController {
     }
     
     func setNaverMap() {
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        getLocationUsagePermission()
-        
-        naverMapView.showCompass = true
-        naverMapView.showZoomControls = true
-        naverMapView.showLocationButton = true
         giveShadowAndRoundedCorners(to: naverMapView)
         
         naverMapView.snp.makeConstraints { make in
@@ -159,9 +169,13 @@ class FoodPairing: UIViewController {
         print("닫기 버튼이 눌렸습니다.")
         dismiss(animated: true)
     }
+    
+    deinit {
+        print("FoodPairing 화면이 내려갔습니다.")
+    }
 }
 
-    //MARK: - Extension
+//MARK: - UICollectionView
 extension FoodPairing: UICollectionViewDelegate {
     
 }
@@ -183,33 +197,14 @@ extension FoodPairing: UICollectionViewDataSource {
     }
 }
 
-extension FoodPairing: CLLocationManagerDelegate {
-    
-    func getLocationUsagePermission() {
-        self.locationManager.requestWhenInUseAuthorization()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
-        case .restricted, .notDetermined:
-            print("GPS 권한 설정되지 않음")
-            getLocationUsagePermission()
-        case .denied:
-            print("GPS 권한 요청 거부")
-            getLocationUsagePermission()
-        default:
-            print("GPS 설정")
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations[locations.count - 1]
-        let longtitude: CLLocationDegrees = location.coordinate.longitude
-        let latitude: CLLocationDegrees = location.coordinate.latitude
+//MARK: - NMFMapViewDelegate
+extension FoodPairing: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        infoWindow.close()
         
-        print("Longtitude: \(longtitude)")
-        print("latitude: \(latitude)")
+        let latlngStr = String(format: "좌표:(%.5f, %.5f)", latlng.lat, latlng.lng)
+        defaultInfoWindoImage.title = latlngStr
+        infoWindow.position = latlng
+        infoWindow.open(with: mapView)
     }
 }
