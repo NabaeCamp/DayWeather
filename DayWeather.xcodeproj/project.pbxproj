@@ -18,6 +18,7 @@
 		BD25D3B92AC12DE500B08252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3B72AC12DE500B08252 /* Main.storyboard */; };
 		BD25D3BB2AC12DE700B08252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BA2AC12DE700B08252 /* Assets.xcassets */; };
 		BD25D3BE2AC12DE700B08252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */; };
+		BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */; };
 		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
 		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
 		BDB634A72AC1A46A00540602 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A62AC1A46A00540602 /* Factory.swift */; };
@@ -43,6 +44,7 @@
 		BD25D3BA2AC12DE700B08252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD25D3BD2AC12DE700B08252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD25D3BF2AC12DE700B08252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
 		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
 				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
 				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
+				BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */,
 				BDB634A62AC1A46A00540602 /* Factory.swift */,
 				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
 				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
@@ -257,6 +260,7 @@
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
 				BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */,
+				BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -386,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -404,20 +408,23 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 2W6JX5D446;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DayWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = NaBaeCamp.DayWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NaBaeCamp.DayWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -433,20 +440,23 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 2W6JX5D446;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DayWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = NaBaeCamp.DayWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NaBaeCamp.DayWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
