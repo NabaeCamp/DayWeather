@@ -190,6 +190,31 @@ class FoodPairing: UIViewController {
             DispatchQueue.main.async {
                 self?.tempLabel.text = self?.viewModel.temperature
                 self?.view.setNeedsDisplay()
+                
+                if let temperature = self?.viewModel.temperature {
+                    let newLabelText: String
+                    
+                    if let tempValue = Double(temperature) {
+                        if tempValue < 5 {
+                            newLabelText = "추워요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else if tempValue < 15 {
+                            newLabelText = "괜찮아요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else if tempValue < 30 {
+                            newLabelText = "덥네요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else {
+                            newLabelText = "왜 안되?"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        }
+                    } else {
+                        newLabelText = "온도를 모르겠습니다."
+                        print(temperature)
+                    }
+                    
+                    self?.secondDescriptionLabel.text = newLabelText
+                }
             }
         }
     }
