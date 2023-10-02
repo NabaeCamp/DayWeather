@@ -10,7 +10,7 @@ import SnapKit
 import NMapsMap
 import CoreLocation
 
-class FoodViewController: UIViewController {
+class FoodPairing: UIViewController {
 //MARK: - 전역 변수 선언
     private let viewModel = FoodViewModel()
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
@@ -222,7 +222,7 @@ class FoodViewController: UIViewController {
 }
 
 //MARK: - LifeCycle 정리
-extension FoodViewController {
+extension FoodPairing {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -239,11 +239,11 @@ extension FoodViewController {
 }
 
 //MARK: - UICollectionView
-extension FoodViewController: UICollectionViewDelegate {
+extension FoodPairing: UICollectionViewDelegate {
     
 }
 
-extension FoodViewController: UICollectionViewDataSource {
+extension FoodPairing: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageAsset.count
     }
@@ -261,7 +261,7 @@ extension FoodViewController: UICollectionViewDataSource {
 }
 
 //MARK: - NMFMapViewTouchDelegate
-extension FoodViewController: NMFMapViewTouchDelegate {
+extension FoodPairing: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         infoWindow.close()
         
@@ -274,7 +274,7 @@ extension FoodViewController: NMFMapViewTouchDelegate {
 
 //MARK: - CLLocationManagerDelegate
 
-extension FoodViewController: CLLocationManagerDelegate {
+extension FoodPairing: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print("위치 업데이트")

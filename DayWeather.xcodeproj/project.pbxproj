@@ -22,6 +22,7 @@
 		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
 		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
 		BDB634A72AC1A46A00540602 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A62AC1A46A00540602 /* Factory.swift */; };
+		BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */; };
 		FF438A562AC140B50032B8BF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A552AC140B50032B8BF /* SnapKit */; };
 		FF438A5A2AC156620032B8BF /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF438A592AC156620032B8BF /* Property List.plist */; };
 		FF438A5C2AC15B0D0032B8BF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */; };
@@ -48,6 +49,7 @@
 		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
 		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewModel.swift; sourceTree = "<group>"; };
 		FF438A592AC156620032B8BF /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		FF438A5D2AC15B330032B8BF /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
 				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
 				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
+				BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */,
 				BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */,
 				BDB634A62AC1A46A00540602 /* Factory.swift */,
 				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
@@ -259,6 +262,7 @@
 				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
+				BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */,
 				BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */,
 				BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */,
 			);
