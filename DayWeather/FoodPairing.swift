@@ -10,8 +10,9 @@ import SnapKit
 import NMapsMap
 import CoreLocation
 
-class FoodPairing: UIViewController {
+class FoodViewController: UIViewController {
 //MARK: - 전역 변수 선언
+    private let viewModel = FoodViewModel()
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
     var infoWindow = NMFInfoWindow()
     var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
@@ -24,8 +25,11 @@ class FoodPairing: UIViewController {
     let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
     let descriptionLabel        = makeLabel(withText: "비가 오는 날이면...", size: 26)
     let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
-    let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 32)
-    let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 80)
+    let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 15)
+    let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 15)
+    
+    let tempLabel               = makeLabel(withText: "온도는 몇도입니다.", size: 15)
+    
     let locationButton          = makeButton(withImage: "magnifyingglass", action: #selector(buttonHandler), target: self)
     let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
     
@@ -80,7 +84,7 @@ class FoodPairing: UIViewController {
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
         [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
-         secondDescriptionLabel, naverMapView, nearbyInfoLabel].forEach{ contentView.addSubview($0) }
+         secondDescriptionLabel, naverMapView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
         setUIComponents()
@@ -159,6 +163,16 @@ class FoodPairing: UIViewController {
         nearbyInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(naverMapView.snp.bottom).offset(20)
             make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        nearbyInfoLabel2.snp.makeConstraints { make in
+            make.top.equalTo(nearbyInfoLabel.snp.bottom).offset(5)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        tempLabel.snp.makeConstraints { make in
+            make.top.equalTo(nearbyInfoLabel2.snp.bottom).offset(5)
+            make.centerX.equalTo(contentView.snp.centerX)
             make.bottom.equalToSuperview().inset(100)
         }
     }
@@ -169,9 +183,29 @@ class FoodPairing: UIViewController {
         }
     }
     
+    // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
+    // 날씨 데이터를 가져오는 메서드
+    func fetchWeatherData(at lat: Double, lon: Double) {
+        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
+            DispatchQueue.main.async {
+                self?.tempLabel.text = self?.viewModel.temperature
+                self?.view.setNeedsDisplay()
+            }
+        }
+    }
+    
     @objc func buttonHandler(_ sender: UIButton) {
         if let unwrappedLocation = location {
             print(unwrappedLocation)
+            DispatchQueue.main.async {
+                let latitude = unwrappedLocation.latitude
+                let longitude = unwrappedLocation.longitude
+                
+                self.nearbyInfoLabel.text = String("위도는 \(latitude)")
+                self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
+                
+                self.fetchWeatherData(at: latitude, lon: longitude)
+            }
         } else {
             print("location is nil")
         }
@@ -188,7 +222,7 @@ class FoodPairing: UIViewController {
 }
 
 //MARK: - LifeCycle 정리
-extension FoodPairing {
+extension FoodViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -205,11 +239,11 @@ extension FoodPairing {
 }
 
 //MARK: - UICollectionView
-extension FoodPairing: UICollectionViewDelegate {
+extension FoodViewController: UICollectionViewDelegate {
     
 }
 
-extension FoodPairing: UICollectionViewDataSource {
+extension FoodViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageAsset.count
     }
@@ -227,7 +261,7 @@ extension FoodPairing: UICollectionViewDataSource {
 }
 
 //MARK: - NMFMapViewTouchDelegate
-extension FoodPairing: NMFMapViewTouchDelegate {
+extension FoodViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         infoWindow.close()
         
@@ -240,7 +274,7 @@ extension FoodPairing: NMFMapViewTouchDelegate {
 
 //MARK: - CLLocationManagerDelegate
 
-extension FoodPairing: CLLocationManagerDelegate {
+extension FoodViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print("위치 업데이트")
