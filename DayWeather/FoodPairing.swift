@@ -11,19 +11,27 @@ import NMapsMap
 import CoreLocation
 
 class FoodPairing: UIViewController {
-    //MARK: - 전역 변수 선언
+//MARK: - 전역 변수 선언
+    private let viewModel = FoodViewModel()
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
-    var locationManger = CLLocationManager()
+    var infoWindow = NMFInfoWindow()
+    var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
+    var locationManager = LocationManager()
+    var location: CLLocationCoordinate2D?
     
-    //MARK: - UIComponent 선언
+    
+//MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
     let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
     let descriptionLabel        = makeLabel(withText: "비가 오는 날이면...", size: 26)
     let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
-    let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 32)
-    let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 80)
+    let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 15)
+    let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 15)
+    
+    let tempLabel               = makeLabel(withText: "온도는 몇도입니다.", size: 15)
+    
+    let locationButton          = makeButton(withImage: "magnifyingglass", action: #selector(buttonHandler), target: self)
     let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
-    lazy var naverMapView       = NMFNaverMapView(frame: view.frame)
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -59,21 +67,38 @@ class FoodPairing: UIViewController {
         return collection
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+    private lazy var naverMapView: NMFNaverMapView = {
+        let map = NMFNaverMapView()
+        map.showCompass             = true
+        map.showLocationButton      = true
+        map.showZoomControls        = true
+        map.translatesAutoresizingMaskIntoConstraints = false
+        return map
+    }()
+    
+    var mapView: NMFMapView {
+        return naverMapView.mapView
     }
     
+//MARK: - UI Setup
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
-        [subDescriptionLabel, descriptionLabel, collectionView,
-         secondDescriptionLabel, naverMapView, nearbyInfoLabel].forEach{ contentView.addSubview($0) }
-        enableScroll()
+        [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
+         secondDescriptionLabel, naverMapView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
         setBackground()
+        enableScroll()
         setUIComponents()
         setCollectionView()
         setNaverMap()
         setNearbyInfo()
+        setupLocation()
+    }
+    
+    func setBackground() {
+        view.sendSubviewToBack(backgroundImg)
+        backgroundImg.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     func enableScroll() {
@@ -88,17 +113,15 @@ class FoodPairing: UIViewController {
         }
     }
     
-    func setBackground() {
-        view.sendSubviewToBack(backgroundImg)
-        backgroundImg.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-    
     func setUIComponents() {
         exitButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().inset(20)
+        }
+        
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.snp.leading).offset(26)
+            make.top.equalTo(contentView.snp.top).offset(50)
         }
         
         subDescriptionLabel.snp.makeConstraints { make in
@@ -127,64 +150,12 @@ class FoodPairing: UIViewController {
     }
     
     func setNaverMap() {
-        naverMapView.showLocationButton = true
-        naverMapView.showZoomControls = true
-        locationManger.delegate = self
-                
         giveShadowAndRoundedCorners(to: naverMapView)
-//        giveMapLocationAction(to: naverMapView)
+        
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.width.equalTo(353)
-            make.height.equalTo(353)
-        }
-    }
-    
-    func giveMapLocationAction(to view: UIView) {
-        locationManger.delegate = self
-        locationManger.desiredAccuracy = kCLLocationAccuracyBest
-        locationManger.requestWhenInUseAuthorization()
-        
-//        if CLLocationManager.locationServicesEnabled() {
-//            print("위치 서비스 ON")
-//            locationManger.startUpdatingLocation()
-//            print("지금 위치는 여기입니다. \(locationManger.location?.coordinate)")
-//
-//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
-//                                                                   lng: locationManger.location?.coordinate.longitude ?? 0))
-//            cameraUpdate.animation = .easeIn
-//            naverMapView.mapView.moveCamera(cameraUpdate)
-//
-//
-//        } else {
-//            print("위치 서비스 OFF")
-//        }
-    }
-    
-    // 현 위치 관련해서 허가
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager, didChangeAuthoration status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
-            locationManger.startUpdatingLocation()
-        } else {
-            print("Location이 서비스 되지 않았습니다.")
-        }
-    }
-    
-    // 현 위치를 전달 받기
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
-            print("새로운 위치는 \(location.coordinate) 입니다.")
-            
-            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: location.coordinate.latitude,
-                                                                   lng: location.coordinate.longitude))
-            cameraUpdate.animation = .easeIn
-            naverMapView.mapView.moveCamera(cameraUpdate)
-            
-            let marker = NMFMarker()
-            marker.position = NMGLatLng(lat: locationManger.location?.coordinate.latitude ?? 0,
-                                        lng: locationManger.location?.coordinate.longitude ?? 0)
-            marker.mapView = naverMapView.mapView
+            make.width.height.equalTo(353)
         }
     }
     
@@ -192,7 +163,76 @@ class FoodPairing: UIViewController {
         nearbyInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(naverMapView.snp.bottom).offset(20)
             make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        nearbyInfoLabel2.snp.makeConstraints { make in
+            make.top.equalTo(nearbyInfoLabel.snp.bottom).offset(5)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        tempLabel.snp.makeConstraints { make in
+            make.top.equalTo(nearbyInfoLabel2.snp.bottom).offset(5)
+            make.centerX.equalTo(contentView.snp.centerX)
             make.bottom.equalToSuperview().inset(100)
+        }
+    }
+    
+    func setupLocation() {
+        locationManager.fetchLocation { [weak self] (location, error) in
+            self?.location = location
+        }
+    }
+    
+    // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
+    // 날씨 데이터를 가져오는 메서드
+    func fetchWeatherData(at lat: Double, lon: Double) {
+        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
+            DispatchQueue.main.async {
+                self?.tempLabel.text = self?.viewModel.temperature
+                self?.view.setNeedsDisplay()
+                
+                if let temperature = self?.viewModel.temperature {
+                    let newLabelText: String
+                    
+                    if let tempValue = Double(temperature) {
+                        if tempValue < 5 {
+                            newLabelText = "추워요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else if tempValue < 15 {
+                            newLabelText = "괜찮아요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else if tempValue < 30 {
+                            newLabelText = "덥네요"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        } else {
+                            newLabelText = "왜 안되?"
+                            print("온도는 이겁니다. - \(tempValue)")
+                        }
+                    } else {
+                        newLabelText = "온도를 모르겠습니다."
+                        print(temperature)
+                    }
+                    
+                    self?.secondDescriptionLabel.text = newLabelText
+                }
+            }
+        }
+    }
+    
+    @objc func buttonHandler(_ sender: UIButton) {
+        if let unwrappedLocation = location {
+            print(unwrappedLocation)
+            DispatchQueue.main.async {
+                let latitude = unwrappedLocation.latitude
+                let longitude = unwrappedLocation.longitude
+                
+                self.nearbyInfoLabel.text = String("위도는 \(latitude)")
+                self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
+                
+                self.fetchWeatherData(at: latitude, lon: longitude)
+            }
+        } else {
+            print("location is nil")
         }
     }
     
@@ -200,9 +240,30 @@ class FoodPairing: UIViewController {
         print("닫기 버튼이 눌렸습니다.")
         dismiss(animated: true)
     }
+    
+    deinit {
+        print("FoodPairing 화면이 내려갔습니다.")
+    }
 }
 
-    //MARK: - Extension
+//MARK: - LifeCycle 정리
+extension FoodPairing {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        //info 창 출력
+        mapView.touchDelegate = self
+        infoWindow.dataSource = defaultInfoWindoImage
+        infoWindow.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
+            self?.infoWindow.close()
+            return true
+        }
+        infoWindow.mapView = mapView
+    }
+}
+
+//MARK: - UICollectionView
 extension FoodPairing: UICollectionViewDelegate {
     
 }
@@ -224,6 +285,30 @@ extension FoodPairing: UICollectionViewDataSource {
     }
 }
 
-extension FoodPairing: CLLocationManagerDelegate {
+//MARK: - NMFMapViewTouchDelegate
+extension FoodPairing: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        infoWindow.close()
+        
+        let latlngStr = String(format: "좌표:(%.5f, %.5f)", latlng.lat, latlng.lng)
+        defaultInfoWindoImage.title = latlngStr
+        infoWindow.position = latlng
+        infoWindow.open(with: mapView)
+    }
+}
 
+//MARK: - CLLocationManagerDelegate
+
+extension FoodPairing: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("위치 업데이트")
+            print("위도: \(location.coordinate.latitude)")
+            print("경도: \(location.coordinate.longitude)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("에러가 발생했습니다: \(error.localizedDescription)")
+    }
 }
