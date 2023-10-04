@@ -185,7 +185,7 @@ class FoodPairing: UIViewController {
     
     // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
     // 날씨 데이터를 가져오는 메서드
-    func fetchWeatherData(at lat: Double, lon: Double) {
+    func fetchWeatherData(lat: Double, lon: Double) {
         viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
             DispatchQueue.main.async {
                 self?.tempLabel.text = self?.viewModel.temperature
@@ -206,7 +206,6 @@ class FoodPairing: UIViewController {
                         newText = "온도를 모르겠습니다."
                         print(temperatureValue)
                     }
-                    
                     self?.secondDescriptionLabel.text = newText
                 }
             }
@@ -223,8 +222,11 @@ class FoodPairing: UIViewController {
                 self.nearbyInfoLabel.text = String("위도는 \(latitude)")
                 self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
                 
-                self.fetchWeatherData(at: latitude, lon: longitude)
-                self.viewModel.requestAPI()
+                print("위도는 \(latitude)")
+                print("경도는 \(longitude)")
+                
+                self.fetchWeatherData(lat: latitude, lon: longitude)
+                self.viewModel.requestGeolocation(locationX: latitude, locationY: longitude)
             }
         } else {
             print("location is nil")
