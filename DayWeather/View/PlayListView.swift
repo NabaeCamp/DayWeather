@@ -12,6 +12,7 @@ class PlayListView: UIViewController {
     
     // MARK: - Properties
     
+    private var weatherData: [WeatherData] = []
     private var backgroundImageView = UIImageView()
     private let dismissButton = UIButton()
     private var titleLabel = UILabel()
@@ -43,8 +44,23 @@ class PlayListView: UIViewController {
         setupPlayListCollectionView()
     }
     
+    func getDataForPlayListView(at lat: Double, lon: Double) {
+        WeatherDataManager.shared.fetchWeatherData(lat: lat, lon: lon) { (data, _) in
+            if let data = data {
+                
+            }
+        }
+    }
+    
     func setupBackgroundImageView() {
-        //일출, 일몰, 날씨에 따라서 image 변경
+        //일출, 일몰, 날씨(추운 날, 더운 날, 비오는 날, 눈 내리는 날) 에 따라서 image 변경
+        //더운 날: WeatherData.rain = nil / WeatherData.Main.feels_like > 체감온도 몇 도 이상
+        //추운 날: WeatherData.rain = nil / WeatherData.Main.feels_like < 체감온도 몇 도 이상
+        //비오는 날: WeatherData.rain = 1
+        //바람부는 날: Wind.speed > 몇 이상
+        //일출: Sys.sunrise
+        //일몰: Sys.sunset
+        
         backgroundImageView.image = UIImage(named: "sunsetImage")
         view.addSubview(backgroundImageView)
         
