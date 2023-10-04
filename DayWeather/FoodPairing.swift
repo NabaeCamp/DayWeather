@@ -192,28 +192,22 @@ class FoodPairing: UIViewController {
                 self?.view.setNeedsDisplay()
                 
                 if let temperature = self?.viewModel.temperature {
-                    let newLabelText: String
+                    let temperatureValue = temperature.replacingOccurrences(of: "º", with: "")
+                    let newText: String
                     
-                    if let tempValue = Double(temperature) {
-                        if tempValue < 5 {
-                            newLabelText = "추워요"
-                            print("온도는 이겁니다. - \(tempValue)")
-                        } else if tempValue < 15 {
-                            newLabelText = "괜찮아요"
-                            print("온도는 이겁니다. - \(tempValue)")
-                        } else if tempValue < 30 {
-                            newLabelText = "덥네요"
-                            print("온도는 이겁니다. - \(tempValue)")
-                        } else {
-                            newLabelText = "왜 안되?"
-                            print("온도는 이겁니다. - \(tempValue)")
+                    if let tempValue = Double(temperatureValue) {
+                        switch tempValue {
+                        case ..<5: newText = "오늘 날씨가 춥네요!"
+                        case 5..<15: newText = "오늘 날씨는 괜찮아 보이네요!"
+                        case 15..<30: newText = "오늘 날씨가 덥네요!"
+                        default: newText = "온도를 호출하는데 오류가 있어요 😢"
                         }
                     } else {
-                        newLabelText = "온도를 모르겠습니다."
-                        print(temperature)
+                        newText = "온도를 모르겠습니다."
+                        print(temperatureValue)
                     }
                     
-                    self?.secondDescriptionLabel.text = newLabelText
+                    self?.secondDescriptionLabel.text = newText
                 }
             }
         }
@@ -230,6 +224,7 @@ class FoodPairing: UIViewController {
                 self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
                 
                 self.fetchWeatherData(at: latitude, lon: longitude)
+                self.viewModel.requestAPI()
             }
         } else {
             print("location is nil")
