@@ -74,6 +74,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		079BA4602ACD7B4300063715 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BD25D3B52AC12DE500B08252 /* MainView.swift */,
+				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
+				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
+				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
+				079BA4642ACD7BBD00063715 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		079BA4622ACD7B5400063715 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FF438A5D2AC15B330032B8BF /* MainViewModel.swift */,
+				079BA45E2ACA59B000063715 /* WearingViewModel.swift */,
+				BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		079BA4632ACD7B9400063715 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BD418B512ACCA6D7000F7539 /* FoodModel.swift */,
+				079BA4652ACD7C0E00063715 /* Manager */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		079BA4642ACD7BBD00063715 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */,
+				079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */,
+				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
+				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		079BA4652ACD7C0E00063715 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
+				BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		079BA4662ACD7C2200063715 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
+				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		079BA4672ACD7C6E00063715 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				BDB634A62AC1A46A00540602 /* Factory.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		BD25D3A52AC12DE500B08252 = {
 			isa = PBXGroup;
 			children = (
@@ -95,27 +163,15 @@
 		BD25D3B02AC12DE500B08252 /* DayWeather */ = {
 			isa = PBXGroup;
 			children = (
-				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
-				079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */,
-				079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */,
-				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
-				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
-				BD25D3B52AC12DE500B08252 /* MainView.swift */,
-				FF438A5D2AC15B330032B8BF /* MainViewModel.swift */,
-				079BA45E2ACA59B000063715 /* WearingViewModel.swift */,
-				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
-				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
-				BD418B512ACCA6D7000F7539 /* FoodModel.swift */,
-				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
-				BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */,
-				BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */,
-				BDB634A62AC1A46A00540602 /* Factory.swift */,
-				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
-				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
 				BD25D3B72AC12DE500B08252 /* Main.storyboard */,
 				BD25D3BA2AC12DE700B08252 /* Assets.xcassets */,
-				FF438A592AC156620032B8BF /* Property List.plist */,
 				BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */,
+				079BA4632ACD7B9400063715 /* Model */,
+				079BA4622ACD7B5400063715 /* ViewModel */,
+				079BA4602ACD7B4300063715 /* View */,
+				079BA4672ACD7C6E00063715 /* Utility */,
+				079BA4662ACD7C2200063715 /* Delegate */,
+				FF438A592AC156620032B8BF /* Property List.plist */,
 				BD25D3BF2AC12DE700B08252 /* Info.plist */,
 			);
 			path = DayWeather;
@@ -277,7 +333,6 @@
 				079BA45F2ACA59B000063715 /* WearingViewModel.swift in Sources */,
 				079BA45D2AC3BBA100063715 /* WearCollectionReusableView.swift in Sources */,
 				BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */,
-
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
