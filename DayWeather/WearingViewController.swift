@@ -12,12 +12,14 @@ import CoreLocation
 
 class WearingViewController: UIViewController {
     
+    var sectionHeaderTitle = "현재 날씨에 알맞는 옷을 추천드립니다"
+    
     
     
     private let viewModel = WearingViewModel()
     
     let locationManager = CLLocationManager()
-//    var weatherManager = WeatherManager()
+    //    var weatherManager = WeatherManager()
     
     struct Item {
         let image: UIImage
@@ -122,17 +124,22 @@ class WearingViewController: UIViewController {
         compositionalLayout()
         
         viewModel.delegate = self
-        viewModel.fetchAndProcessWeatherData(lat: 37.566535
-, lon: 126.977969, completion: updateView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
     @objc func dismissBtnClick(){
         self.dismiss(animated: true)
     }
     
-   
+    
     
     func addSubViewAll(){
         [allScreen,xBtn,tempLabel,titleLabel,subTitle,noticeView,noticeIcon,noticeLabel,wearCollectionView].forEach{
@@ -212,35 +219,36 @@ class WearingViewController: UIViewController {
     
     func compositionalLayout(){
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-                    switch sectionIndex {
-                    case 0, 1, 2, 3, 4:
-                        // Define a horizontal group (가로 스크롤) for sections 0 and 1
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(0.86))
-                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-                        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .fractionalHeight(0.4))
-                        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                        let section = NSCollectionLayoutSection(group: group)
-                        section.orthogonalScrollingBehavior = .continuous
-                        section.interGroupSpacing = 0
-                        // Add a header to the section
-                        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(30))
-                        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-                        section.boundarySupplementaryItems = [headerElement]
-                        return section
-                    default:
-                        return nil
-                    }
-                }
-                // Set the compositional layout to the collection view
-        wearCollectionView.collectionViewLayout = layout
+            switch sectionIndex {
+            case 0, 1, 2, 3, 4:
+                // Define a horizontal group (가로 스크롤) for sections 0 and 1
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(0.86))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .fractionalHeight(0.4))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                section.interGroupSpacing = 0
+                // Add a header to the section
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(30))
+                let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+                section.boundarySupplementaryItems = [headerElement]
+                return section
+            default:
+                return nil
             }
+        }
+        // Set the compositional layout to the collection view
+        wearCollectionView.collectionViewLayout = layout
+    }
     
     private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
         .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50)),
               elementKind: UICollectionView.elementKindSectionHeader, alignment: .top
         )
     }
+    
 }
 
 extension WearingViewController: UICollectionViewDataSource {
@@ -264,7 +272,7 @@ extension WearingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "WearCollectionReusableView", for: indexPath) as! WearCollectionReusableView
-            headerView.setTitle("흐린날에 적합한 \(indexPath.section) 번째 추천 의류 !")
+            headerView.setTitle(sectionHeaderTitle)
             return headerView
         } else {
             return UICollectionReusableView()
@@ -282,8 +290,8 @@ extension UIImage {
         let widthRatio  = targetSize.width  / size.width
         let heightRatio = targetSize.height / size.height
         let newSize = widthRatio > heightRatio ?
-            CGSize(width: size.width * heightRatio, height: size.height * heightRatio) :
-            CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        CGSize(width: size.width * heightRatio, height: size.height * heightRatio) :
+        CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
         let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         self.draw(in: rect)
@@ -295,9 +303,12 @@ extension UIImage {
 extension WearingViewController:CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let lat = location.coordinate.latitude
-//        let lon = location.coordinate.longitude
-//        print(lat,lon)
+        if let location = locations.first{
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+            //        print(lat,lon)
+            viewModel.fetchAndProcessWeatherData(lat: lat, lon: lon, completion: updateView)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -310,41 +321,78 @@ extension WearingViewController:WearingDelegate{
     
     func updateView() {
         DispatchQueue.main.async {
-            let temperature = self.viewModel.temperature
-            self.tempLabel.text = temperature
-            //            let noticeMent = ["우산을 챙기셔야겠는데요?","양산을 챙기셔야 탈모를 막겠어요!","엄청 추울예정이에요. 단단히 입으세요!"]
-            //            if temperature == "21" {
-            //                noticeMent[2]
-            //            }
+            //            let temperature = self.viewModel.temperature
+            
+            let noticeMent: String
+            let titleMent: String
+            var headerMent = self.sectionHeaderTitle
+            if let temperature = self.viewModel.temperature{
+                let temperatureValue = temperature.replacingOccurrences(of: "º", with: "")
+                if let value = Double(temperatureValue){
+                    switch value {
+                    case ..<0:
+                        noticeMent = "저라면 나가지않을것 같은 추위군요"
+                        titleMent = "강 추위 입니다"
+                        headerMent = "살아남기 위한 따뜻한 룩"
+                    case 0...10:
+                        noticeMent = "겁먹은것 처럼 보이지않으려면 패딩을 챙기세요"
+                        titleMent = "상당한 추위네요"
+                        headerMent = "추위에 견디기 딱 좋은 룩"
+                    case 11...25:
+                        noticeMent = "자켓을 챙기는게 좋겠어요!"
+                        titleMent = "일교차가 커요"
+                        headerMent = "큰 일교차에 걸맞는 룩"
+                    case 26...30:
+                        noticeMent = "우산을 챙겨두면 칭찬받을거에요 :)"
+                        titleMent = "비를 조심하세요"
+                        headerMent = "비를 대비한 최적의 룩"
+                    case 31...40:
+                        noticeMent = "이런 날씨에 양산은 필수라구요."
+                        titleMent = "밖은 너무 더워요"
+                        headerMent = "더운 날씨에 제격인 시원한 룩"
+                    default:
+                        noticeMent = "나가지 마세요."
+                        titleMent = "위험한 날씨입니다"
+                        headerMent = "이정도면 벗고 다니셔야겠어요"
+                        
+                    }
+                    self.tempLabel.text = temperature
+                    self.noticeLabel.text = noticeMent
+                    self.titleLabel.text = titleMent
+                    self.sectionHeaderTitle = headerMent
+//                    self.titleLabel.text = titleMent
+                    self.wearCollectionView.reloadData()
+
+                }
+            }
         }
     }
-
-}
-
+    }
+    
 #if DEBUG
-
-struct ViewControllerRepresentable: UIViewControllerRepresentable{
     
-    //    update
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    struct ViewControllerRepresentable: UIViewControllerRepresentable{
+        
+        //    update
+        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+            
+        }
+        @available(iOS 13.0, *)
+        func makeUIViewController(context: Context) -> UIViewController {
+            WearingViewController()
+        }
+        //    makeui
         
     }
-    @available(iOS 13.0, *)
-    func makeUIViewController(context: Context) -> UIViewController {
-        WearingViewController()
-    }
-    //    makeui
     
-}
-
-
-struct ViewController_Previews: PreviewProvider{
-    static var previews: some View{
-        ViewControllerRepresentable()
-            .previewDisplayName("아이폰 14")
-        
+    
+    struct ViewController_Previews: PreviewProvider{
+        static var previews: some View{
+            ViewControllerRepresentable()
+                .previewDisplayName("아이폰 14")
+            
+        }
     }
-}
-
-
+    
+    
 #endif

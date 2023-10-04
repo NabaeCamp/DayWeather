@@ -7,32 +7,32 @@
 
 import Foundation
 
-enum TemperatureRange {
-    
-    case freezing
-    case cold
-    case moderate
-    case warm
-    case hot
-    case scorching
-    
-    func getDescription() -> String {
-        switch self {
-        case .freezing:
-            return "It's freezing!"
-        case .cold:
-            return "It's cold."
-        case .moderate:
-            return "The temperature is moderate."
-        case .warm:
-            return "It's warm."
-        case .hot:
-            return "It's hot!"
-        case .scorching:
-            return "It's scorching!"
-        }
-    }
-}
+//enum TemperatureRange {
+//
+//    case freezing
+//    case cold
+//    case moderate
+//    case warm
+//    case hot
+//    case scorching
+//
+//    func getDescription() -> String {
+//        switch self {
+//        case .freezing:
+//            return "It's freezing!"
+//        case .cold:
+//            return "It's cold."
+//        case .moderate:
+//            return "The temperature is moderate."
+//        case .warm:
+//            return "It's warm."
+//        case .hot:
+//            return "It's hot!"
+//        case .scorching:
+//            return "It's scorching!"
+//        }
+//    }
+//}
 
 
 protocol WearingDelegate:AnyObject {
@@ -63,31 +63,12 @@ class WearingViewModel {
                 return
             }
             
-//            self?.temperature = temp
-            if let temperature = Int(temp!) {
-                let temperatureRange: TemperatureRange
-                
-                switch temperature {
-                case ..<0:
-                    temperatureRange = .freezing
-                case 0...10:
-                    temperatureRange = .cold
-                case 11...25:
-                    temperatureRange = .moderate
-                case 26...30:
-                    temperatureRange = .warm
-                case 31...40:
-                    temperatureRange = .hot
-                default:
-                    temperatureRange = .scorching
-                }
-                
-                print("Temperature: \(temperature) - \(temperatureRange.getDescription())")
-            }
+            self?.temperature = temp
+            completion()
             
-            DispatchQueue.main.async {
-                completion()
-            }
+//            DispatchQueue.main.async {
+//                completion()
+//            }
         }
     }
 }
