@@ -21,7 +21,8 @@
 		BD25D3BB2AC12DE700B08252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BA2AC12DE700B08252 /* Assets.xcassets */; };
 		BD25D3BE2AC12DE700B08252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */; };
 		BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */; };
-		BD418B522ACCA6D7000F7539 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD418B512ACCA6D7000F7539 /* FoodModel.swift */; };
+		BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */; };
+		BD418B522ACCA6D7000F7539 /* GeoLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */; };
 		BD6E65FC2ACC10D2002BE276 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD6E65FB2ACC10D2002BE276 /* SnapKit */; };
 		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
 		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
@@ -51,7 +52,8 @@
 		BD25D3BD2AC12DE700B08252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD25D3BF2AC12DE700B08252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		BD418B512ACCA6D7000F7539 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
+		BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollectionViewCell.swift; sourceTree = "<group>"; };
+		BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoLocationModel.swift; sourceTree = "<group>"; };
 		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
 		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
@@ -99,7 +101,7 @@
 		079BA4632ACD7B9400063715 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BD418B512ACCA6D7000F7539 /* FoodModel.swift */,
+				BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */,
 				079BA4652ACD7C0E00063715 /* Manager */,
 			);
 			path = Model;
@@ -111,6 +113,7 @@
 				079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */,
 				079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */,
 				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
+				BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */,
 				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
 			);
 			path = Cell;
@@ -316,7 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD418B522ACCA6D7000F7539 /* FoodModel.swift in Sources */,
+				BD418B522ACCA6D7000F7539 /* GeoLocationModel.swift in Sources */,
 				26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */,
 				26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */,
 				FF438A5E2AC15B330032B8BF /* MainViewModel.swift in Sources */,
@@ -326,6 +329,7 @@
 				FF438A5C2AC15B0D0032B8BF /* WeatherManager.swift in Sources */,
 				BDB634A72AC1A46A00540602 /* Factory.swift in Sources */,
 				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
+				BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */,
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
 				BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */,
