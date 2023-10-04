@@ -246,6 +246,11 @@ class MainView: UIViewController {
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
 
+        button.setTitle("🧥", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
+
+
+
         // 첫 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
             make.width.equalTo(100)
@@ -276,6 +281,12 @@ class MainView: UIViewController {
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
 
+        // 버튼에 텍스트 설정
+        button.setTitle("🎧", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
+
+
+
         // 두 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
             make.width.equalTo(100)
@@ -303,6 +314,11 @@ class MainView: UIViewController {
 
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
+
+        button.setTitle("🧑‍🍳", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
+
+
 
         // 세 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
