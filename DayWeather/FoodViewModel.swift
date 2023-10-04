@@ -9,10 +9,9 @@ import Foundation
 
 class FoodViewModel {
     var temperature: String?
-    private var dataModel: FoodModel?
-    private var term = ""
-    
-    private var weatherDataManager = WeatherDataManager.shared // 싱글턴 인스턴스 사용
+    private var weatherDataManager = WeatherDataManager.shared
+    private let clientID: String = "0rhfpo643h"
+    private let clientSecretID: String = "lw4kFw37ygyaOqXkfkjaeyO3N7U5zy30Tl6NC524"
     
     func fetchWeatherData(lat: Double, lon: Double, completion: @escaping () -> Void) {
         weatherDataManager.processWeatherData(lat: lat, lon: lon) { [weak self] (city, temp, error) in
@@ -26,40 +25,42 @@ class FoodViewModel {
         }
     }
     
-    func requestAPI() {
-        let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig)
-        
-        var baseURL = URLComponents(string: "https://openapi.naver.com/v1/search/local")
-        let param = URLQueryItem(name: "query", value: term)
-        let display = URLQueryItem(name: "display", value: "100")
-        
-        baseURL?.queryItems = [param, display]
-        
-        guard let url = baseURL?.url else { return }
+    func requestGeolocation(locationX longitude: Double, locationY latitude: Double) {
+        let baseUrl = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+        let urlString = "\(baseUrl)?request=coordstoaddr&coords=\(longitude),\(latitude)&output=json"
+        guard let url = URL(string: urlString) else { print("URL이 없습니다.")
+            return
+        }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "Get"
-        request.setValue("5jZ3ukktUdvCAob0qT3g", forHTTPHeaderField: "X-Naver-Client-Id")
-        request.setValue("7GcxPHxBai", forHTTPHeaderField: "X-Naver-Client-Secret")
+        request.httpMethod = "GET"
+        request.setValue(clientID, forHTTPHeaderField: "X-NCP-APIGW-API-KEY-ID")
+        request.setValue(clientSecretID, forHTTPHeaderField: "X-NCP-APIGW-API-KEY")
         
-        let task = session.dataTask(with: request) { data, response, error in
-            print((response as! HTTPURLResponse).statusCode)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error { print("API 요청 실패, \(error.localizedDescription)")
+                return
+            }
             
-            if let hasData = data {
+            if let httpResponse = response as? HTTPURLResponse {
+                let statusCode = httpResponse.statusCode
+                print("상태는 이렇습니다. \(statusCode)")
+            }
+            
+            if let data = data {
                 do {
-                    self.dataModel = try JSONDecoder().decode(FoodModel.self, from: hasData)
-                    DispatchQueue.main.async {
-                        // 가져온 데이터 어떻게 처리를 할까
-                        print("마! 이게 데이터다! \(hasData)")
-//                        self.tableView.reloadData()
+                    let locationData = try JSONDecoder().decode(FoodModel.self, from: data)
+                    if let results = locationData.results.first {
+                        let address = results.region.area1.name + " " + results.region.area2.name
+                        print("좌표의 주소는 \(address)")
+                    } else {
+                        print("주소 정보를 찾을 수 없습니다.")
                     }
                 } catch {
-                    print("오류가 발생했습니다. \(error.localizedDescription)")
+                    print("JSON Parsing 오류가 발생했습니다. \(error.localizedDescription)")
                 }
             }
         }
         task.resume()
-        session.finishTasksAndInvalidate()
     }
 }
