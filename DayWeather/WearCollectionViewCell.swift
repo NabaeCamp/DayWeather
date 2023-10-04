@@ -15,11 +15,20 @@ class WearCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    let imageView: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 20
+        return view
+    }()
     
     override init(frame: CGRect){
         super.init(frame: frame)
         
         contentView.addSubview(titleLabel)
+        contentView.addSubview(imageView)
         contentView.layer.cornerRadius = 20
         
         NSLayoutConstraint.activate([
@@ -29,7 +38,7 @@ class WearCollectionViewCell: UICollectionViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
-        contentView.backgroundColor = UIColor.lightGray
+        contentView.backgroundColor = UIColor.clear
     }
     
     required init?(coder: NSCoder) {

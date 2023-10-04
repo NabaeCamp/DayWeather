@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
 		079BA45B2AC27CEB00063715 /* WearCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */; };
+		079BA45D2AC3BBA100063715 /* WearCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */; };
+		079BA45F2ACA59B000063715 /* WearingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45E2ACA59B000063715 /* WearingViewModel.swift */; };
 		26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */; };
 		26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C13DC22AC173E20034FC64 /* PlayListView.swift */; };
 		6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearCollectionViewCell.swift; sourceTree = "<group>"; };
+		079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearCollectionReusableView.swift; sourceTree = "<group>"; };
+		079BA45E2ACA59B000063715 /* WearingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewModel.swift; sourceTree = "<group>"; };
 		126C3AD37CE7936D64F6F834 /* Pods-DayWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.debug.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.debug.xcconfig"; sourceTree = "<group>"; };
 		26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListCollectionViewCell.swift; sourceTree = "<group>"; };
 		26C13DC22AC173E20034FC64 /* PlayListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListView.swift; sourceTree = "<group>"; };
@@ -87,10 +91,12 @@
 			children = (
 				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
 				079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */,
+				079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */,
 				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
 				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
 				BD25D3B52AC12DE500B08252 /* MainView.swift */,
 				FF438A5D2AC15B330032B8BF /* MainViewModel.swift */,
+				079BA45E2ACA59B000063715 /* WearingViewModel.swift */,
 				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
 				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
 				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
@@ -257,6 +263,8 @@
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
 				BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */,
+				079BA45F2ACA59B000063715 /* WearingViewModel.swift in Sources */,
+				079BA45D2AC3BBA100063715 /* WearCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

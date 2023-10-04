@@ -144,6 +144,19 @@ class WeatherDataManager {
             }
         }
     }
+    func processWearingData(lat: Double, lon: Double, completion: @escaping (String?, Error?) -> Void) {
+        fetchWeatherData(lat: lat, lon: lon) { (data, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
 
+            if let data = data {
+                let celsiusTemperature = data.main.temp - 273.15
+                let temperature = "\(Int(celsiusTemperature))º"
+                completion(temperature, nil)
+            }
+        }
+    }
 }
 
