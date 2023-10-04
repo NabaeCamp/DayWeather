@@ -127,6 +127,10 @@ class WearingViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
     
     @objc func dismissBtnClick(){
         self.dismiss(animated: true)
@@ -312,10 +316,31 @@ extension WearingViewController:WearingDelegate{
         DispatchQueue.main.async {
             let temperature = self.viewModel.temperature
             self.tempLabel.text = temperature
-            //            let noticeMent = ["우산을 챙기셔야겠는데요?","양산을 챙기셔야 탈모를 막겠어요!","엄청 추울예정이에요. 단단히 입으세요!"]
-            //            if temperature == "21" {
-            //                noticeMent[2]
-            //            }
+            
+            let noticeMent: String
+            if let temperature = Int(temperature!) {
+                
+                            switch temperature {
+                            case ..<0:
+                                noticeMent = "얼겠다"
+                            case 0...10:
+                                noticeMent = "춥다야"
+                            case 11...25:
+                                noticeMent = "평이해"
+                            case 26...30:
+                                noticeMent = "뜨뜻혀"
+                            case 31...40:
+                                noticeMent = "뜨거"
+                            default:
+                                noticeMent = "익어"
+                                
+                            }
+                print(noticeMent)
+                self.noticeLabel.text = noticeMent
+                        }
+//                        if temperature == "21" {
+//                            noticeMent[2]
+//                        }
         }
     }
 

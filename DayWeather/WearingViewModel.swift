@@ -63,7 +63,7 @@ class WearingViewModel {
                 return
             }
             
-//            self?.temperature = temp
+            self?.temperature = temp
             if let temperature = Int(temp!) {
                 let temperatureRange: TemperatureRange
                 
