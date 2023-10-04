@@ -8,8 +8,9 @@
 import Foundation
 
 class WeatherViewModel {
-
+        
     var cityName: String?
+    
     var temperature: String? // 온도를 String으로 저장
 
     // MARK: - 변경 사항 - 싱글톤 패턴의 사용
@@ -28,3 +29,4 @@ class WeatherViewModel {
         }
     }
 }
+
