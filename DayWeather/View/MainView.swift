@@ -15,12 +15,12 @@ class MainView: UIViewController {
     private let viewModel = WeatherViewModel()
     private var temperatureLabel: UILabel!
     private var cityLabel: UILabel!
+//    private var noticeV: UIView!
+//    private var noticeLabel: UILabel!
     private var naverMapView: NMFNaverMapView!
     private var locationManager: CLLocationManager!
     private var marker: NMFMarker?
-
-
-
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +40,13 @@ class MainView: UIViewController {
         setupLocationLabel()
         setupCityLabel()
         setupTemperatureLabel()
+        setupSunnyIcon()
         setupCustomButton()
         setupSecondCustomButton()
         setupThirdCustomButton()
+        setupNoticeIcon()
+        noticeView()
+        noticeText()
 
 
         fetchWeatherData(at: 37.5665, lon: 126.9780)
@@ -66,12 +70,17 @@ class MainView: UIViewController {
     private func setupNaverMapView() {
         let mapViewContainer = UIView()
         view.addSubview(mapViewContainer)
+        mapViewContainer.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        mapViewContainer.layer.shadowOpacity = 1
+        mapViewContainer.layer.shadowRadius = 4
+        mapViewContainer.layer.shadowOffset = CGSize(width: 0, height: 4)
+        mapViewContainer.clipsToBounds = false  // 이 부분은 모서리 반올림 부분을 잘라내기 위해 추가
 
         mapViewContainer.snp.makeConstraints { make in
-            make.height.equalTo(351)
+            make.height.equalTo(320)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20) // 화면 오른쪽 끝에서 20의 간격을 유지
-            make.top.equalToSuperview().offset(305)
+            make.top.equalToSuperview().offset(340)
         }
 
 
@@ -132,8 +141,8 @@ class MainView: UIViewController {
 
         label.text = "나의 위치"
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 32)
-        label.attributedText = NSMutableAttributedString(string: "나의 위치", attributes: [NSAttributedString.Key.kern: -1.44])
+        label.font = UIFont.systemFont(ofSize: 36)
+        label.attributedText = NSMutableAttributedString(string: "나의 위치", attributes: [NSAttributedString.Key.kern: -0.04])
 
         // 그림자 효과
         label.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -147,7 +156,7 @@ class MainView: UIViewController {
             // make.width.equalTo(120)  // 이 줄을 제거
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(140)
         }
 
 
@@ -161,8 +170,8 @@ class MainView: UIViewController {
 
         cityLabel.text = "서울특별시"
         cityLabel.textColor = .white
-        cityLabel.font = UIFont.systemFont(ofSize: 32)
-        cityLabel.attributedText = NSMutableAttributedString(string: "서울특별시", attributes: [NSAttributedString.Key.kern: -0.54])
+        cityLabel.font = UIFont.systemFont(ofSize: 14)
+        cityLabel.attributedText = NSMutableAttributedString(string: "서울특별시", attributes: [NSAttributedString.Key.kern: -0.04])
 
         // 그림자 효과
         cityLabel.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -175,7 +184,7 @@ class MainView: UIViewController {
         cityLabel.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(160)
+            make.top.equalToSuperview().offset(176)
         }
     }
 
@@ -186,7 +195,7 @@ class MainView: UIViewController {
 
         temperatureLabel.text = "2º"
         temperatureLabel.textColor = .white
-        temperatureLabel.font = UIFont.systemFont(ofSize: 32)
+        temperatureLabel.font = UIFont.systemFont(ofSize: 40)
         temperatureLabel.attributedText = NSMutableAttributedString(string: "2º", attributes: [NSAttributedString.Key.kern: -1.53])
 
         // 그림자 효과
@@ -199,11 +208,71 @@ class MainView: UIViewController {
         temperatureLabel.numberOfLines = 1
         temperatureLabel.snp.makeConstraints { make in
             make.height.equalTo(50)
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(220)
+            make.centerX.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(210)
+        }
+        
+    }
+    
+    private func setupSunnyIcon() {
+        let setupSunnyIcon = UIImageView()
+        view.addSubview(setupSunnyIcon)
+        
+        setupSunnyIcon.image = UIImage(named: "sunnyIcon")
+        
+        setupSunnyIcon.snp.makeConstraints { make in
+            make.height.equalTo(24)
+            make.width.equalTo(24)
+            make.centerY.equalTo(temperatureLabel.snp.centerY)
+            make.trailing.equalTo(temperatureLabel.snp.leading).offset(-4)
         }
     }
+    private func setupNoticeIcon() {
+        let setupSunnyIcon = UIImageView()
+        view.addSubview(setupSunnyIcon)
+        
+        setupSunnyIcon.image = UIImage(named: "notice")
+        
+        setupSunnyIcon.snp.makeConstraints { make in
+            make.height.equalTo(24)
+            make.width.equalTo(24)
+            make.top.equalTo(temperatureLabel.snp.bottom).offset(26)
+            make.leading.equalToSuperview().offset(36)
+        }
+    }
+    
+    private func noticeView() {
+        let noticeV = UIView()
+        view.addSubview(noticeV)
+        
+        noticeV.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
+        noticeV.layer.cornerRadius = 20
+        
+        noticeV.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+            make.width.equalTo(353)
+            make.height.equalTo(50)
+        }
+    }
+    
+    private func noticeText() {
+        let noticeLabel = UILabel()
+        view.addSubview(noticeLabel)
+        noticeLabel.text = "자켓을 챙기는게 좋겠어요!"
+        noticeLabel.font = UIFont.systemFont(ofSize: 14)
+        noticeLabel.textColor = .white
+        noticeLabel.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        noticeLabel.layer.shadowOpacity = 0.1
+        noticeLabel.layer.shadowRadius = 4
+        noticeLabel.layer.shadowOffset = CGSize(width: 0, height: 4)
 
+        noticeLabel.snp.makeConstraints { make in
+            make.top.equalTo(temperatureLabel.snp.bottom).offset(27)
+            make.leading.equalToSuperview().offset(70)
+        }
+    }
+    
     private func setupRefreshButton() {
         let refreshButton = UIButton()
         view.addSubview(refreshButton)
@@ -211,15 +280,15 @@ class MainView: UIViewController {
         // 이미지로 버튼 설정
         refreshButton.setImage(UIImage(named: "Refresh"), for: .normal)  // "refreshIcon"은 Assets에 추가한 이미지 이름입니다.
 
-        refreshButton.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.7)
-        refreshButton.layer.cornerRadius = 10
+        refreshButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        refreshButton.layer.cornerRadius = 12
 
         // Auto layout 설정
         refreshButton.snp.makeConstraints { make in
-            make.width.equalTo(40)  // 이미지의 크기에 따라 조정
-            make.height.equalTo(40)
+            make.width.equalTo(24)  // 이미지의 크기에 따라 조정
+            make.height.equalTo(24)
             make.trailing.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(60)
+            make.top.equalToSuperview().offset(80)
         }
 
         // 버튼 액션 추가
@@ -236,6 +305,9 @@ class MainView: UIViewController {
     }
 
 
+    let image1 = UIImage(named: "Frame 16")
+    let image2 = UIImage(named: "Frame 15")
+    let image3 = UIImage(named: "Frame 17")
 
 
 
@@ -245,18 +317,18 @@ class MainView: UIViewController {
 
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
-
-        button.setTitle("🧥", for: .normal)
+        
+        button.setImage(image1, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
 
 
 
         // 첫 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(100)
+            make.width.equalTo(111)
+            make.height.equalTo(110)
             make.leading.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(679)
+            make.top.equalToSuperview().offset(686)
         }
 
         // 버튼 액션 추가 (필요한 경우)
@@ -282,17 +354,17 @@ class MainView: UIViewController {
         button.layer.cornerRadius = 20
 
         // 버튼에 텍스트 설정
-        button.setTitle("🎧", for: .normal)
+        button.setImage(image2, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
 
 
 
         // 두 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(100)
+            make.width.equalTo(111)
+            make.height.equalTo(110)
             make.leading.equalTo(self.view).offset(141)
-            make.top.equalToSuperview().offset(679)
+            make.top.equalToSuperview().offset(686)
         }
 
         // 버튼 액션 추가 (필요한 경우)
@@ -314,18 +386,18 @@ class MainView: UIViewController {
 
         button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
         button.layer.cornerRadius = 20
-
-        button.setTitle("🧑‍🍳", for: .normal)
+        
+        button.setImage(image3, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 40) // 원하는 크기로 설정
 
 
 
         // 세 번째 버튼의 Auto layout 설정
         button.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(100)
+            make.width.equalTo(111)
+            make.height.equalTo(110)
             make.leading.equalTo(self.view).offset(262)
-            make.top.equalToSuperview().offset(679)
+            make.top.equalToSuperview().offset(686)
         }
 
         // 버튼 액션 추가 (필요한 경우)
