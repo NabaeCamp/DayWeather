@@ -44,7 +44,7 @@ class PlayListView: UIViewController {
         setupPlayListCollectionView()
     }
     
-    func getDataForPlayListView(at lat: Double, lon: Double, completion: @escaping (_ data: WeatherData) -> Void) {
+    func getDataForPlayListView(at lat: Double, lon: Double) {
         WeatherDataManager.shared.fetchWeatherData(lat: lat, lon: lon) { (data, _) in
             if let data = data {
                 
