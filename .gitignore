@@ -95,3 +95,4 @@ iOSInjectionProject/
 
 # Ignore Property List.plist
 Property List.plist
+.DS_Store
