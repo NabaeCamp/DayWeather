@@ -76,13 +76,13 @@ class FoodViewModel {
         task.resume()
     }
     
-    func requestAPI(location: GeoLocationModel) {
+    func requestAPI(location: GeoLocationModel, food: String? = nil, completion: @escaping () -> Void) {
         let detailLocation = location.results[0].region.area2.name
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         
         var baseURL = URLComponents(string: "https://openapi.naver.com/v1/search/local")
-        let param = URLQueryItem(name: "query", value: "\(detailLocation) 맛집")
+        let param = URLQueryItem(name: "query", value: "\(detailLocation)\(food) 맛집")
         let display = URLQueryItem(name: "display", value: "10")
         
         baseURL?.queryItems = [param, display]
@@ -107,7 +107,10 @@ class FoodViewModel {
                     let decoder = JSONDecoder()
                     if let queryModel = try? decoder.decode(QueryModel.self, from: hasData) as QueryModel {
                         // viewModel에 해당 데이터 저장(호출 한 데이터)
+                        /// 해당 데이터를 호출하는데 문제가 발생하고 있다
                         self.queryData = queryModel
+                        completion()
+                        print("여기까지는 타고 있지?")
                     }
                 } catch {
                     print(error)
