@@ -37,8 +37,7 @@ final class StoreTableviewCell: UITableViewCell {
         }
     }
     
-    func updateLabel(with data: String) {
+    func updateTitle(with data: String) {
         storeLabel.text = data
-        descriptionLabel.text = data
     }
 }
