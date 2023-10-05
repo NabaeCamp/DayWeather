@@ -13,9 +13,9 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     static let identifier = "PlayListCollectionViewCell"
     
     private let playListView = UIView()
-    private var albumCoverImageView = UIImageView()
-    private var songTitleLabel = UILabel()
-    private var singerNameLabel = UILabel()
+    var albumCoverImageView = UIImageView()
+    var songTitleLabel = UILabel()
+    var singerNameLabel = UILabel()
     private let musicInfoStackView = UIStackView()
     
     override init(frame: CGRect) {
@@ -51,8 +51,7 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupAlbumCoverImageView() {
-        //플레이리스트 배열 생성하여 순서대로 image 가져오기
-        albumCoverImageView.image = UIImage(named: "albumCover")
+        //albumCoverImageView.image = UIImage(named: "albumCover")
         albumCoverImageView.layer.cornerRadius = 18
         albumCoverImageView.clipsToBounds = true
         playListView.addSubview(albumCoverImageView)
@@ -63,15 +62,13 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSongtitleLabel() {
-        //플레이리스트 배열 생성하여 순서대로 text 가져오기
-        songTitleLabel.text = "How You Like That"
+        //songTitleLabel.text = "How You Like That"
         songTitleLabel.textColor = .white
         songTitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
     func setupSingerNameLabel() {
-        //플레이리스트 배열 생성하여 순서대로 text 가져오기
-        singerNameLabel.text = "BLACKPINK"
+        //singerNameLabel.text = "BLACKPINK"
         singerNameLabel.textColor = .white
         singerNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
