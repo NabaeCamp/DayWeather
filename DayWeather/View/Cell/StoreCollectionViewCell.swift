@@ -15,7 +15,7 @@ final class StoreTableviewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .black데
+        backgroundColor = .black
         setLayout()
     }
     
