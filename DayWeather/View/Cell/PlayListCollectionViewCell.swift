@@ -21,7 +21,6 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -52,6 +51,7 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupAlbumCoverImageView() {
+        //플레이리스트 배열 생성하여 순서대로 image 가져오기
         albumCoverImageView.image = UIImage(named: "albumCover")
         albumCoverImageView.layer.cornerRadius = 18
         albumCoverImageView.clipsToBounds = true
@@ -63,12 +63,14 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSongtitleLabel() {
+        //플레이리스트 배열 생성하여 순서대로 text 가져오기
         songTitleLabel.text = "How You Like That"
         songTitleLabel.textColor = .white
         songTitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
     func setupSingerNameLabel() {
+        //플레이리스트 배열 생성하여 순서대로 text 가져오기
         singerNameLabel.text = "BLACKPINK"
         singerNameLabel.textColor = .white
         singerNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
