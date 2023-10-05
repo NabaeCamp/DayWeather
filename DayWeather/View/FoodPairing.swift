@@ -11,15 +11,17 @@ import NMapsMap
 import CoreLocation
 
 class FoodPairing: UIViewController {
-//MARK: - 전역 변수 선언
+    //MARK: - 전역 변수 선언
     private let viewModel = FoodViewModel()
     let imageAsset: [String] = (1...5).map({"Food\($0)"})
     var infoWindow = NMFInfoWindow()
     var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
     var locationManager = LocationManager()
     var location: CLLocationCoordinate2D?
+    var locationData: GeoLocationModel?
+    var storeData: QueryModel?
     
-//MARK: - UIComponent 선언
+    //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
     let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
     let descriptionLabel        = makeLabel(withText: "비가 오는 날이면...", size: 26)
@@ -86,7 +88,7 @@ class FoodPairing: UIViewController {
         return naverMapView.mapView
     }
     
-//MARK: - UI Setup
+    //MARK: - UI Setup
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
         [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
@@ -168,7 +170,7 @@ class FoodPairing: UIViewController {
     
     func setNearbyTableView() {
         giveShadowAndRoundedCorners(to: nearbyTableView)
-
+        
         nearbyTableView.snp.makeConstraints { make in
             make.top.equalTo(naverMapView.snp.bottom).offset(20)
             make.leading.equalTo(contentView.snp.leading).offset(10)
@@ -199,6 +201,7 @@ class FoodPairing: UIViewController {
         locationManager.fetchLocation { [weak self] (location, error) in
             self?.location = location
         }
+        locationManager.stopUpdatingLocation()
     }
     
     // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
@@ -232,27 +235,37 @@ class FoodPairing: UIViewController {
     
     @objc func buttonHandler(_ sender: UIButton) {
         if let unwrappedLocation = location {
-            print(unwrappedLocation)
+            let latitude = unwrappedLocation.latitude
+            let longitude = unwrappedLocation.longitude
+            
             DispatchQueue.main.async {
-                let latitude = unwrappedLocation.latitude
-                let longitude = unwrappedLocation.longitude
-                
                 self.nearbyInfoLabel.text = String("위도는 \(latitude)")
                 self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
                 
                 print("위도는 \(latitude)")
                 print("경도는 \(longitude)")
-                
+            }
+            
+            DispatchQueue.main.async {
                 self.fetchWeatherData(lat: latitude, lon: longitude)
                 
-                self.viewModel.getLocation(locationX: longitude, locationY: latitude) { GeoLocationModel in
-                    if let GeoLocationModel = GeoLocationModel {
-                        print("지금 위치는 \(GeoLocationModel.name)")
-                        print("지금 위치는 \(GeoLocationModel.region)")
-                        print("지금 위치는 \(GeoLocationModel.region.area0)")
+                // 데이터를 받고 있었지만, 모델을 데이터로 활용하고 있었던 점 + Model의 구조가 달랐기 때문에 발생하던 문제점
+                self.viewModel.getLocation(locationX: longitude, locationY: latitude) { geoLocationModel in
+                    if let geoLocationModel = geoLocationModel {
+                        self.locationData = geoLocationModel
                     } else {
                         print("에러가 발생했습니다.")
                     }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                if let unwrappedData = self.locationData {
+                    self.viewModel.requestAPI(location: unwrappedData)
+                }
+                
+                self.viewModel.dataUpdated = { [weak self] in
+                    self?.nearbyTableView.reloadData()
                 }
             }
         } else {
@@ -285,6 +298,12 @@ extension FoodPairing {
         }
         infoWindow.mapView = mapView
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("한번만 출력 가능한가요?")
+        setupLocation()
+    }
 }
 
 //MARK: - UICollectionView
@@ -296,7 +315,7 @@ extension FoodPairing: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageAsset.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodCollectionViewCell.identifier, for: indexPath) as! FoodCollectionViewCell
         let imageName = imageAsset[indexPath.item]
@@ -316,11 +335,15 @@ extension FoodPairing: UITableViewDelegate {
 
 extension FoodPairing: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.storeData?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoreTableviewCell.identifier, for: indexPath) as!  StoreTableviewCell
+        if let titleResult = self.storeData?.items[indexPath.row].title {
+            cell.updateTitle(with: titleResult)
+            cell.descriptionLabel.text = self.storeData?.items[indexPath.row].address
+        }
         return cell
     }
 }
