@@ -19,7 +19,6 @@ class FoodPairing: UIViewController {
     var locationManager = LocationManager()
     var location: CLLocationCoordinate2D?
     
-    
 //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
     let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
@@ -27,7 +26,6 @@ class FoodPairing: UIViewController {
     let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
     let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 15)
     let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 15)
-    
     let tempLabel               = makeLabel(withText: "온도는 몇도입니다.", size: 15)
     
     let locationButton          = makeButton(withImage: "magnifyingglass", action: #selector(buttonHandler), target: self)
@@ -35,14 +33,14 @@ class FoodPairing: UIViewController {
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.showsVerticalScrollIndicator = false
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsVerticalScrollIndicator               = false
+        view.translatesAutoresizingMaskIntoConstraints  = false
         return view
     }()
     
     private let contentView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints  = false
         return view
     }()
     
@@ -76,6 +74,14 @@ class FoodPairing: UIViewController {
         return map
     }()
     
+    lazy var nearbyTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(StoreTableviewCell.self, forCellReuseIdentifier: StoreTableviewCell.identifier)
+        return tableView
+    }()
+    
     var mapView: NMFMapView {
         return naverMapView.mapView
     }
@@ -84,12 +90,13 @@ class FoodPairing: UIViewController {
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
         [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
-         secondDescriptionLabel, naverMapView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
+         secondDescriptionLabel, naverMapView, nearbyTableView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
         setUIComponents()
         setCollectionView()
         setNaverMap()
+        setNearbyTableView()
         setNearbyInfo()
         setupLocation()
     }
@@ -159,9 +166,20 @@ class FoodPairing: UIViewController {
         }
     }
     
+    func setNearbyTableView() {
+        giveShadowAndRoundedCorners(to: nearbyTableView)
+
+        nearbyTableView.snp.makeConstraints { make in
+            make.top.equalTo(naverMapView.snp.bottom).offset(20)
+            make.leading.equalTo(contentView.snp.leading).offset(10)
+            make.trailing.equalTo(contentView.snp.trailing).inset(10)
+            make.height.equalTo(300)
+        }
+    }
+    
     func setNearbyInfo() {
         nearbyInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(naverMapView.snp.bottom).offset(20)
+            make.top.equalTo(nearbyTableView.snp.bottom).offset(20)
             make.centerX.equalTo(contentView.snp.centerX)
         }
         
@@ -226,7 +244,16 @@ class FoodPairing: UIViewController {
                 print("경도는 \(longitude)")
                 
                 self.fetchWeatherData(lat: latitude, lon: longitude)
-                self.viewModel.requestGeolocation(locationX: latitude, locationY: longitude)
+                
+                self.viewModel.getLocation(locationX: longitude, locationY: latitude) { GeoLocationModel in
+                    if let GeoLocationModel = GeoLocationModel {
+                        print("지금 위치는 \(GeoLocationModel.name)")
+                        print("지금 위치는 \(GeoLocationModel.region)")
+                        print("지금 위치는 \(GeoLocationModel.region.area0)")
+                    } else {
+                        print("에러가 발생했습니다.")
+                    }
+                }
             }
         } else {
             print("location is nil")
@@ -279,6 +306,22 @@ extension FoodPairing: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("음식 \(indexPath.item + 1)번이 눌렸습니다.")
+    }
+}
+
+//MARK: - UITableView
+extension FoodPairing: UITableViewDelegate {
+    
+}
+
+extension FoodPairing: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: StoreTableviewCell.identifier, for: indexPath) as!  StoreTableviewCell
+        return cell
     }
 }
 
