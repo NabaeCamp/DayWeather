@@ -25,12 +25,42 @@ class WearingViewController: UIViewController {
         let image: UIImage
     }
     
-    var images: [UIImage] = [
+    var images: [[UIImage]] = [
+        [
         UIImage(named: "cloth1")!,
         UIImage(named: "cloth2")!,
         UIImage(named: "cloth3")!,
         UIImage(named: "cloth4")!,
         UIImage(named: "cloth5")!,
+        ],
+        [
+        UIImage(named: "s-cloth1")!,
+        UIImage(named: "s-cloth2")!,
+        UIImage(named: "s-cloth3")!,
+        UIImage(named: "s-cloth4")!,
+        UIImage(named: "s-cloth5")!,
+        ],
+        [
+        UIImage(named: "s1-cloth1")!,
+        UIImage(named: "s1-cloth2")!,
+        UIImage(named: "s1-cloth3")!,
+        UIImage(named: "s1-cloth4")!,
+        UIImage(named: "s1-cloth5")!,
+        ],
+        [
+        UIImage(named: "s2-cloth1")!,
+        UIImage(named: "s2-cloth2")!,
+        UIImage(named: "s2-cloth3")!,
+        UIImage(named: "s2-cloth4")!,
+        UIImage(named: "s2-cloth5")!,
+        ],
+        [
+        UIImage(named: "s3-cloth1")!,
+        UIImage(named: "s3-cloth2")!,
+        UIImage(named: "s3-cloth3")!,
+        UIImage(named: "s3-cloth4")!,
+        UIImage(named: "s3-cloth5")!,
+        ]
     ]
     
     var nowTemp = "26"
@@ -261,8 +291,10 @@ extension WearingViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wearCollectionViewCell", for: indexPath) as! WearCollectionViewCell
-        let image = images[indexPath.item]
+        let sectionImagesForSection = images[indexPath.section]
+        let image = sectionImagesForSection[indexPath.item]
         cell.imageView.image = image
+        
         let cellWidth = cell.bounds.width
         let cellHeight = cell.bounds.height
         let scaledImage = image.resized(to: CGSize(width: cellWidth, height: cellHeight))
