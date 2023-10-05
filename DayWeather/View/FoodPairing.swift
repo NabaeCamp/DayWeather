@@ -17,9 +17,9 @@ class FoodPairing: UIViewController {
     var infoWindow = NMFInfoWindow()
     var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
     var locationManager = LocationManager()
-    var location: CLLocationCoordinate2D?
-    var locationData: GeoLocationModel?
-    var storeData: QueryModel?
+    var location: CLLocationCoordinate2D? // 호출한 위치 데이터 coords 저장
+    var locationData: GeoLocationModel? // coords의 지명/ 주소를 저장
+//    var storeData: QueryModel? >> 호출해 온 전체 데이터?
     
     //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
@@ -54,7 +54,7 @@ class FoodPairing: UIViewController {
         return layout
     }()
     
-    lazy var collectionView: UICollectionView = {
+    lazy var foodCollectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
         collection.dataSource       = self
         collection.delegate         = self
@@ -91,7 +91,7 @@ class FoodPairing: UIViewController {
     //MARK: - UI Setup
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
-        [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
+        [locationButton, subDescriptionLabel, descriptionLabel, foodCollectionView,
          secondDescriptionLabel, naverMapView, nearbyTableView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
@@ -144,13 +144,13 @@ class FoodPairing: UIViewController {
         }
         
         secondDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(9)
+            make.top.equalTo(foodCollectionView.snp.bottom).offset(9)
             make.leading.equalTo(contentView.snp.leading).offset(26)
         }
     }
     
     func setCollectionView() {
-        collectionView.snp.makeConstraints { make in
+        foodCollectionView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(19)
             make.leading.equalTo(contentView.snp.leading)
             make.trailing.equalTo(contentView.snp.trailing)
@@ -164,7 +164,7 @@ class FoodPairing: UIViewController {
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.width.height.equalTo(353)
+            make.height.equalTo(353)
         }
     }
     
@@ -206,8 +206,8 @@ class FoodPairing: UIViewController {
     
     // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
     // 날씨 데이터를 가져오는 메서드
-    func fetchWeatherData(lat: Double, lon: Double) {
-        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
+    func fetchWeatherData(lon: Double, lat: Double) {
+        viewModel.fetchWeatherData(lon: lon, lat: lat) { [weak self] in
             DispatchQueue.main.async {
                 self?.tempLabel.text = self?.viewModel.temperature
                 self?.view.setNeedsDisplay()
@@ -239,33 +239,27 @@ class FoodPairing: UIViewController {
             let longitude = unwrappedLocation.longitude
             
             DispatchQueue.main.async {
-                self.nearbyInfoLabel.text = String("위도는 \(latitude)")
-                self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
+                // 첫번째 행동
+                self.nearbyInfoLabel.text = String("경도는 \(longitude)")
+                self.nearbyInfoLabel2.text = String("위도는 \(latitude)")
                 
-                print("위도는 \(latitude)")
                 print("경도는 \(longitude)")
-            }
-            
-            DispatchQueue.main.async {
-                self.fetchWeatherData(lat: latitude, lon: longitude)
+                print("위도는 \(latitude)")
+
+                // 두번째 행동
+                self.fetchWeatherData(lon: longitude, lat: latitude)
                 
                 // 데이터를 받고 있었지만, 모델을 데이터로 활용하고 있었던 점 + Model의 구조가 달랐기 때문에 발생하던 문제점
                 self.viewModel.getLocation(locationX: longitude, locationY: latitude) { geoLocationModel in
                     if let geoLocationModel = geoLocationModel {
                         self.locationData = geoLocationModel
+                        print("\(geoLocationModel.results[0].region.area2.name)")
                     } else {
                         print("에러가 발생했습니다.")
                     }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                if let unwrappedData = self.locationData {
-                    self.viewModel.requestAPI(location: unwrappedData)
-                }
-                
-                self.viewModel.dataUpdated = { [weak self] in
-                    self?.nearbyTableView.reloadData()
+                if let unwrappedLocation = self.locationData {
+                    self.viewModel.requestAPI(location: unwrappedLocation)
                 }
             }
         } else {
@@ -307,6 +301,14 @@ extension FoodPairing {
 }
 
 //MARK: - UICollectionView
+extension FoodPairing: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = collectionView.bounds.width / CGFloat(imageAsset.count)
+        let cellHeight = collectionView.bounds.height
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
+
 extension FoodPairing: UICollectionViewDelegate {
     
 }
@@ -335,14 +337,15 @@ extension FoodPairing: UITableViewDelegate {
 
 extension FoodPairing: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.storeData?.items.count ?? 0
+        return viewModel.queryData?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoreTableviewCell.identifier, for: indexPath) as!  StoreTableviewCell
-        if let titleResult = self.storeData?.items[indexPath.row].title {
+        if let titleResult = self.viewModel.queryData?.items[indexPath.row].title,
+           let addressResult = self.viewModel.queryData?.items[indexPath.row].address {
             cell.updateTitle(with: titleResult)
-            cell.descriptionLabel.text = self.storeData?.items[indexPath.row].address
+            cell.descriptionLabel.text = addressResult
         }
         return cell
     }

@@ -14,7 +14,7 @@ class FoodViewModel {
     var foodPairing: [FoodPairing] = []
     var dataUpdated: (() -> Void)?
     
-    func fetchWeatherData(lat: Double, lon: Double, completion: @escaping () -> Void) {
+    func fetchWeatherData(lon: Double, lat: Double, completion: @escaping () -> Void) {
         weatherDataManager.processWeatherData(lat: lat, lon: lon) { [weak self] (city, temp, error) in
             if let error = error {
                 print("Error processing weather data: \(error.localizedDescription)")
@@ -94,8 +94,6 @@ class FoodViewModel {
         request.setValue("7GcxPHxBai", forHTTPHeaderField: "X-Naver-Client-Secret")
         
         let task = session.dataTask(with: request) { data, response, error in
-            guard let error = error as? HTTPURLResponse else { return }
-            
             if let error = error as? HTTPURLResponse {
                 print("에러가 발생했습니다. \(error.statusCode)")
             }
@@ -108,11 +106,8 @@ class FoodViewModel {
                 do {
                     let decoder = JSONDecoder()
                     if let queryModel = try? decoder.decode(QueryModel.self, from: hasData) as QueryModel {
+                        // viewModel에 해당 데이터 저장(호출 한 데이터)
                         self.queryData = queryModel
-                        DispatchQueue.main.async {
-                            print("전환한 데이터는 이것입니다. \(queryModel)")
-    //                        self.foodView.nearbyTableView.reloadData()
-                        }
                     }
                 } catch {
                     print(error)
