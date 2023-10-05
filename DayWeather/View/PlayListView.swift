@@ -56,12 +56,10 @@ class PlayListView: UIViewController {
         setupDismissButton()
         setupTitleLabel()
         setupSubtitleLabel()
-        setupIconImageView()
         setupPlayListCollectionView()
     }
     
     func setupBackgroundImageView() {
-        //backgroundImageView.image = UIImage(named: "sunsetImage")
         view.addSubview(backgroundImageView)
         
         backgroundImageView.snp.makeConstraints {
@@ -103,17 +101,6 @@ class PlayListView: UIViewController {
         }
     }
     
-    func setupIconImageView(){
-        //iconImageView.image = UIImage(named: "sunsetIcon")
-        view.addSubview(iconImageView)
-        
-        iconImageView.snp.makeConstraints {
-            $0.top.equalTo(subtitleLabel.snp.bottom).offset(5)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(70)
-        }
-    }
-    
     func setupPlayListCollectionView(){
         playListCollectionView.delegate = self
         playListCollectionView.dataSource = self
@@ -123,7 +110,7 @@ class PlayListView: UIViewController {
         view.addSubview(playListCollectionView)
         
         playListCollectionView.snp.makeConstraints {
-            $0.top.equalTo(iconImageView.snp.bottom).offset(15)
+            $0.top.equalTo(subtitleLabel.snp.bottom).offset(20)
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview()
@@ -151,13 +138,12 @@ extension PlayListView: CLLocationManagerDelegate {
         let lon = location.coordinate.longitude
         print(lat, lon)
         
-        playListViewModel.getDataForPlayListView(lat: lat, lon: lon) { [weak self] backgroundImage, titleText , iconImage in
+        playListViewModel.getDataForPlayListView(lat: lat, lon: lon) { [weak self] backgroundImage, titleText in
             guard let self else { return }
             
             DispatchQueue.main.async {
                 self.backgroundImageView.image = backgroundImage
                 self.titleLabel.text = titleText
-                self.iconImageView.image = iconImage
             }
         }
     }
