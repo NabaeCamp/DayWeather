@@ -103,22 +103,22 @@ class MainView: UIViewController {
     }
 
     @objc private func handleMapTap(_ recognizer: UITapGestureRecognizer) {
-        let location = recognizer.location(in: naverMapView.mapView)
-        let coordinate = naverMapView.mapView.projection.latlng(from: location)
-
-        // 기존 마커를 제거
-        marker?.mapView = nil
-
-        // 새로운 마커를 추가
-        marker = NMFMarker()
-        marker?.position = coordinate
-        marker?.mapView = naverMapView.mapView
-
-        // 날씨 데이터 조회
-        fetchWeatherData(at: coordinate.lat, lon: coordinate.lng)
-
-        // 위치 업데이트 중지
-        locationManager.stopUpdatingLocation()
+//        let location = recognizer.location(in: naverMapView.mapView)
+//        let coordinate = naverMapView.mapView.projection.latlng(from: location)
+//
+//        // 기존 마커를 제거
+//        marker?.mapView = nil
+//
+//        // 새로운 마커를 추가
+//        marker = NMFMarker()
+//        marker?.position = coordinate
+//        marker?.mapView = naverMapView.mapView
+//
+//        // 날씨 데이터 조회
+//        fetchWeatherData(at: coordinate.lat, lon: coordinate.lng)
+//
+//        // 위치 업데이트 중지
+//        locationManager.stopUpdatingLocation()
     }
 
 
@@ -447,6 +447,9 @@ extension MainView: CLLocationManagerDelegate {
 
             // 지도의 중심을 현재 위치로 이동합니다.
             mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)))
+
+            // 여기서 현재 위치의 날씨 데이터를 가져옵니다.
+            fetchWeatherData(at: coordinate.latitude, lon: coordinate.longitude)
         }
     }
 }
@@ -454,10 +457,10 @@ extension MainView: CLLocationManagerDelegate {
 
 
 
-// MARK: - NMFMapViewCameraDelegate Extension
-extension MainView: NMFMapViewCameraDelegate {
-    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
-        let center = mapView.cameraPosition.target
-        fetchWeatherData(at: center.lat, lon: center.lng)
-    }
-}
+//// MARK: - NMFMapViewCameraDelegate Extension
+//extension MainView: NMFMapViewCameraDelegate {
+//    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+//        let center = mapView.cameraPosition.target
+//        fetchWeatherData(at: center.lat, lon: center.lng)
+//    }
+//}
