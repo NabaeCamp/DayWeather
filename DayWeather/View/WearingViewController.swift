@@ -48,11 +48,11 @@ class WearingViewController: UIViewController {
         UIImage(named: "s1-cloth5")!,
         ],
         [
-        UIImage(named: "s2-cloth1")!,
+        UIImage(named: "s2-cloth5")!,
         UIImage(named: "s2-cloth2")!,
         UIImage(named: "s2-cloth3")!,
         UIImage(named: "s2-cloth4")!,
-        UIImage(named: "s2-cloth5")!,
+        UIImage(named: "s2-cloth1")!,
         ],
         [
         UIImage(named: "s3-cloth1")!,
@@ -74,7 +74,8 @@ class WearingViewController: UIViewController {
     }()
     var xBtn : UIButton = {
         var view = UIButton()
-        view.setImage(UIImage(named: "xBtn"), for: .normal)
+        view.setImage(UIImage(systemName: "xmark"), for: .normal)
+        view.tintColor = .white
         return view
     }()
     var tempLabel : UILabel = {
@@ -194,13 +195,13 @@ class WearingViewController: UIViewController {
     func configureXBtn(){
         xBtn.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(60)
+            make.top.equalToSuperview().offset(20)
         }
     }
     func configureTemp(){
         tempLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(110)
+            make.top.equalTo(xBtn.snp.bottom).offset(30)
         }
     }
     func configureTitle(){
