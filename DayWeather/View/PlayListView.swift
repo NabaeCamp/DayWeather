@@ -27,18 +27,7 @@ class PlayListView: UIViewController {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return view
     }()
-    lazy var playList: [PlayList] = [
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "우산(Feat.윤하)", singer: "에픽하이"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "빗소리", singer: "윤하"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "비 오는 날 듣기 좋은 노래(Feat.Colde)", singer: "에픽하이"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "북향(Feat.오혁)", singer: "다이나믹 듀오"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "비도 오고 그래서", singer: "헤이즈"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "잠 못 드는 밤 비는 내리고", singer: "김건모"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "비", singer: "폴킴"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "비가 오는 날엔", singer: "비스트"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "비가 오잖아", singer: "소유 & 오반"),
-    PlayList(albumCover: UIImage(named: "albumCover"), song: "밤편지", singer: "아이유")
-    ]
+    lazy var playList: [PlayList] = []
     
     // MARK: - LifeCycle
     
@@ -85,7 +74,7 @@ class PlayListView: UIViewController {
         view.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(dismissButton.snp.bottom).offset(80)
+            $0.top.equalTo(dismissButton.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
         }
     }
@@ -138,12 +127,16 @@ extension PlayListView: CLLocationManagerDelegate {
         let lon = location.coordinate.longitude
         print(lat, lon)
         
-        playListViewModel.getDataForPlayListView(lat: lat, lon: lon) { [weak self] backgroundImage, titleText in
+        playListViewModel.getDataForPlayListView(lat: lat, lon: lon) { [weak self] backgroundImage, titleText, playList in
             guard let self else { return }
+            
+            self.playList = playList
+            print(playList)
             
             DispatchQueue.main.async {
                 self.backgroundImageView.image = backgroundImage
                 self.titleLabel.text = titleText
+                self.playListCollectionView.reloadData()
             }
         }
     }
