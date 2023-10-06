@@ -7,27 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */; };
 		072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5C332AC12FB500A895BC /* WearingViewController.swift */; };
-		072D5C372AC153D900A895BC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 072D5C362AC153D900A895BC /* SnapKit */; };
+		079BA45B2AC27CEB00063715 /* WearCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */; };
+		079BA45D2AC3BBA100063715 /* WearCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */; };
+		079BA45F2ACA59B000063715 /* WearingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079BA45E2ACA59B000063715 /* WearingViewModel.swift */; };
+		26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */; };
+		26B7F1C72ACF99BA00E893AF /* PlayListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B7F1C62ACF99BA00E893AF /* PlayListModel.swift */; };
+		26B7F1C92ACF99CD00E893AF /* PlayListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B7F1C82ACF99CD00E893AF /* PlayListViewModel.swift */; };
+		26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C13DC22AC173E20034FC64 /* PlayListView.swift */; };
+		6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */; };
 		BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B12AC12DE500B08252 /* AppDelegate.swift */; };
 		BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */; };
 		BD25D3B62AC12DE500B08252 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25D3B52AC12DE500B08252 /* MainView.swift */; };
 		BD25D3B92AC12DE500B08252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3B72AC12DE500B08252 /* Main.storyboard */; };
 		BD25D3BB2AC12DE700B08252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BA2AC12DE700B08252 /* Assets.xcassets */; };
 		BD25D3BE2AC12DE700B08252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */; };
-		FF438A562AC140B50032B8BF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A552AC140B50032B8BF /* SnapKit */; };
-		FF438A582AC140B50032B8BF /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = FF438A572AC140B50032B8BF /* SnapKit-Dynamic */; };
+		BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */; };
+		BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */; };
+		BD418B522ACCA6D7000F7539 /* GeoLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */; };
+		BD6E65FC2ACC10D2002BE276 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD6E65FB2ACC10D2002BE276 /* SnapKit */; };
+		BD84623D2ACE766000FCEC7A /* QueryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD84623C2ACE766000FCEC7A /* QueryModel.swift */; };
+		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
+		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
+		BDB634A72AC1A46A00540602 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A62AC1A46A00540602 /* Factory.swift */; };
+		BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */; };
 		FF438A5A2AC156620032B8BF /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF438A592AC156620032B8BF /* Property List.plist */; };
 		FF438A5C2AC15B0D0032B8BF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */; };
 		FF438A5E2AC15B330032B8BF /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF438A5D2AC15B330032B8BF /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
+		079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearCollectionViewCell.swift; sourceTree = "<group>"; };
+		079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearCollectionReusableView.swift; sourceTree = "<group>"; };
+		079BA45E2ACA59B000063715 /* WearingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewModel.swift; sourceTree = "<group>"; };
 		126C3AD37CE7936D64F6F834 /* Pods-DayWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.debug.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListCollectionViewCell.swift; sourceTree = "<group>"; };
+		26B7F1C62ACF99BA00E893AF /* PlayListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListModel.swift; sourceTree = "<group>"; };
+		26B7F1C82ACF99CD00E893AF /* PlayListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListViewModel.swift; sourceTree = "<group>"; };
+		26C13DC22AC173E20034FC64 /* PlayListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListView.swift; sourceTree = "<group>"; };
 		2BFEE69322BF2397DBB3D5C5 /* Pods_DayWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DayWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E0A31C5ACD31679A8FC0FCF /* Pods-DayWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DayWeather.release.xcconfig"; path = "Target Support Files/Pods-DayWeather/Pods-DayWeather.release.xcconfig"; sourceTree = "<group>"; };
-		072D5C332AC12FB500A895BC /* WearingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearingViewController.swift; sourceTree = "<group>"; };
 		BD25D3AE2AC12DE500B08252 /* DayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD25D3B12AC12DE500B08252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +56,14 @@
 		BD25D3BA2AC12DE700B08252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD25D3BD2AC12DE700B08252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD25D3BF2AC12DE700B08252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollectionViewCell.swift; sourceTree = "<group>"; };
+		BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoLocationModel.swift; sourceTree = "<group>"; };
+		BD84623C2ACE766000FCEC7A /* QueryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryModel.swift; sourceTree = "<group>"; };
+		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
+		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
+		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewModel.swift; sourceTree = "<group>"; };
 		FF438A592AC156620032B8BF /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		FF438A5D2AC15B330032B8BF /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -47,14 +75,85 @@
 			buildActionMask = 2147483647;
 			files = (
 				6414B5D22EF2F66E53B2DB4C /* Pods_DayWeather.framework in Frameworks */,
-				FF438A562AC140B50032B8BF /* SnapKit in Frameworks */,
-				FF438A582AC140B50032B8BF /* SnapKit-Dynamic in Frameworks */,
+				BD6E65FC2ACC10D2002BE276 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		079BA4602ACD7B4300063715 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BD25D3B52AC12DE500B08252 /* MainView.swift */,
+				26C13DC22AC173E20034FC64 /* PlayListView.swift */,
+				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
+				BDB634A42AC1A32600540602 /* FoodPairing.swift */,
+				079BA4642ACD7BBD00063715 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		079BA4622ACD7B5400063715 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FF438A5D2AC15B330032B8BF /* MainViewModel.swift */,
+				079BA45E2ACA59B000063715 /* WearingViewModel.swift */,
+				BDE9AB9D2ACA73BF00445544 /* FoodViewModel.swift */,
+				26B7F1C82ACF99CD00E893AF /* PlayListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		079BA4632ACD7B9400063715 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */,
+				BD84623C2ACE766000FCEC7A /* QueryModel.swift */,
+				26B7F1C62ACF99BA00E893AF /* PlayListModel.swift */,
+				079BA4652ACD7C0E00063715 /* Manager */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		079BA4642ACD7BBD00063715 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				079BA45C2AC3BBA100063715 /* WearCollectionReusableView.swift */,
+				079BA45A2AC27CEB00063715 /* WearCollectionViewCell.swift */,
+				BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */,
+				BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */,
+				26B62C402AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		079BA4652ACD7C0E00063715 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
+				BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		079BA4662ACD7C2200063715 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
+				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		079BA4672ACD7C6E00063715 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				BDB634A62AC1A46A00540602 /* Factory.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		BD25D3A52AC12DE500B08252 = {
 			isa = PBXGroup;
 			children = (
@@ -76,16 +175,15 @@
 		BD25D3B02AC12DE500B08252 /* DayWeather */ = {
 			isa = PBXGroup;
 			children = (
-				072D5C332AC12FB500A895BC /* WearingViewController.swift */,
-				BD25D3B12AC12DE500B08252 /* AppDelegate.swift */,
-				BD25D3B32AC12DE500B08252 /* SceneDelegate.swift */,
-				BD25D3B52AC12DE500B08252 /* MainView.swift */,
-				FF438A5D2AC15B330032B8BF /* MainViewModel.swift */,
-				FF438A5B2AC15B0D0032B8BF /* WeatherManager.swift */,
 				BD25D3B72AC12DE500B08252 /* Main.storyboard */,
 				BD25D3BA2AC12DE700B08252 /* Assets.xcassets */,
-				FF438A592AC156620032B8BF /* Property List.plist */,
 				BD25D3BC2AC12DE700B08252 /* LaunchScreen.storyboard */,
+				079BA4632ACD7B9400063715 /* Model */,
+				079BA4622ACD7B5400063715 /* ViewModel */,
+				079BA4602ACD7B4300063715 /* View */,
+				079BA4672ACD7C6E00063715 /* Utility */,
+				079BA4662ACD7C2200063715 /* Delegate */,
+				FF438A592AC156620032B8BF /* Property List.plist */,
 				BD25D3BF2AC12DE700B08252 /* Info.plist */,
 			);
 			path = DayWeather;
@@ -127,8 +225,7 @@
 			);
 			name = DayWeather;
 			packageProductDependencies = (
-				FF438A552AC140B50032B8BF /* SnapKit */,
-				FF438A572AC140B50032B8BF /* SnapKit-Dynamic */,
+				BD6E65FB2ACC10D2002BE276 /* SnapKit */,
 			);
 			productName = DayWeather;
 			productReference = BD25D3AE2AC12DE500B08252 /* DayWeather.app */;
@@ -231,12 +328,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B7F1C92ACF99CD00E893AF /* PlayListViewModel.swift in Sources */,
+				BD418B522ACCA6D7000F7539 /* GeoLocationModel.swift in Sources */,
+				26B62C412AC1D6AD00F3CC37 /* PlayListCollectionViewCell.swift in Sources */,
+				26C13DC32AC173E20034FC64 /* PlayListView.swift in Sources */,
 				FF438A5E2AC15B330032B8BF /* MainViewModel.swift in Sources */,
 				BD25D3B62AC12DE500B08252 /* MainView.swift in Sources */,
+				079BA45B2AC27CEB00063715 /* WearCollectionViewCell.swift in Sources */,
 				BD25D3B22AC12DE500B08252 /* AppDelegate.swift in Sources */,
 				FF438A5C2AC15B0D0032B8BF /* WeatherManager.swift in Sources */,
+				BDB634A72AC1A46A00540602 /* Factory.swift in Sources */,
 				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
+				BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */,
+				BD84623D2ACE766000FCEC7A /* QueryModel.swift in Sources */,
+				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
+				BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */,
+				BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */,
+				079BA45F2ACA59B000063715 /* WearingViewModel.swift in Sources */,
+				26B7F1C72ACF99BA00E893AF /* PlayListModel.swift in Sources */,
+				079BA45D2AC3BBA100063715 /* WearCollectionReusableView.swift in Sources */,
+				BD2F1FAE2AC7E2FA004B8DCC /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -366,7 +478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -384,20 +496,23 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 2W6JX5D446;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DayWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = NaBaeCamp.DayWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NaBaeCamp.DayWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -413,20 +528,23 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 2W6JX5D446;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DayWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"위치를 기반으로 날씨를 가져옵니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = NaBaeCamp.DayWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NaBaeCamp.DayWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -469,15 +587,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FF438A552AC140B50032B8BF /* SnapKit */ = {
+		BD6E65FB2ACC10D2002BE276 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FF438A542AC140B50032B8BF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		FF438A572AC140B50032B8BF /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FF438A542AC140B50032B8BF /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
