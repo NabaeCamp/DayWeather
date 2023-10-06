@@ -27,6 +27,7 @@ class MainView: UIViewController {
 
         setupBackgroundImage()
         setupBackgroundImage()
+        setupNaverMapViewShadow()
         setupNaverMapView()
 
         // CLLocationManager를 설정하고 시작합니다.
@@ -47,6 +48,7 @@ class MainView: UIViewController {
         setupNoticeIcon()
         noticeView()
         noticeText()
+        
 
 
         fetchWeatherData(at: 37.5665, lon: 126.9780)
@@ -67,15 +69,30 @@ class MainView: UIViewController {
         }
     }
 
+    private func setupNaverMapViewShadow(){
+        let mapViewContainerShadow = UIView()
+        view.addSubview(mapViewContainerShadow)
+        mapViewContainerShadow.backgroundColor = .black
+        mapViewContainerShadow.layer.cornerRadius = 20
+        mapViewContainerShadow.layer.masksToBounds = false
+        mapViewContainerShadow.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        mapViewContainerShadow.layer.shadowOpacity = 1
+        mapViewContainerShadow.layer.shadowRadius = 4
+        mapViewContainerShadow.layer.shadowOffset = CGSize(width: 0, height: 4)
+        
+        mapViewContainerShadow.snp.makeConstraints { make in
+            make.height.equalTo(320)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20) // 화면 오른쪽 끝에서 20의 간격을 유지
+            make.top.equalToSuperview().offset(340)
+        }
+    }
+    
     private func setupNaverMapView() {
         let mapViewContainer = UIView()
         view.addSubview(mapViewContainer)
-        mapViewContainer.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        mapViewContainer.layer.shadowOpacity = 1
-        mapViewContainer.layer.shadowRadius = 4
-        mapViewContainer.layer.shadowOffset = CGSize(width: 0, height: 4)
-        mapViewContainer.clipsToBounds = false  // 이 부분은 모서리 반올림 부분을 잘라내기 위해 추가
 
+//        mapViewContainer.clipsToBounds = true  // 이 부분은 모서리 반올림 부분을 잘라내기 위해 추가
         mapViewContainer.snp.makeConstraints { make in
             make.height.equalTo(320)
             make.leading.equalToSuperview().offset(20)
@@ -96,6 +113,19 @@ class MainView: UIViewController {
         naverMapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+//        var shadows = UIView()
+//        shadows.frame = view.frame
+//        shadows.clipsToBounds = false
+//        view.addSubview(shadows)
+//        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 20)
+//        let layer0 = CALayer()
+//        layer0.shadowPath = shadowPath0.cgPath
+//        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+//        layer0.shadowOpacity = 1
+//        layer0.shadowRadius = 4
+//        layer0.shadowOffset = CGSize(width: 0, height: 4)
+//        mapViewContainer.clipsToBounds = true
+        mapViewContainer.layer.cornerRadius = 20
 
         // 탭 제스처 인식기 설정
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
@@ -315,7 +345,7 @@ class MainView: UIViewController {
         let button = UIButton()
         view.addSubview(button)
 
-        button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
+        button.backgroundColor = UIColor(red: 0.53, green: 0.53, blue: 0.53, alpha: 0.2)
         button.layer.cornerRadius = 20
         
         button.setImage(image1, for: .normal)
@@ -350,7 +380,7 @@ class MainView: UIViewController {
         let button = UIButton()
         view.addSubview(button)
 
-        button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
+        button.backgroundColor = UIColor(red: 0.53, green: 0.53, blue: 0.53, alpha: 0.2)
         button.layer.cornerRadius = 20
 
         // 버튼에 텍스트 설정
@@ -384,7 +414,7 @@ class MainView: UIViewController {
         let button = UIButton()
         view.addSubview(button)
 
-        button.backgroundColor = UIColor(red: 0.525, green: 0.525, blue: 0.525, alpha: 0.2)
+        button.backgroundColor = UIColor(red: 0.53, green: 0.53, blue: 0.53, alpha: 0.2)
         button.layer.cornerRadius = 20
         
         button.setImage(image3, for: .normal)
