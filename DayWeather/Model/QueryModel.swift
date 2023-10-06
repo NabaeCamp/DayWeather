@@ -9,14 +9,14 @@ import Foundation
 
 struct QueryModel: Codable {
     let lastBuildDate: String
-    var total:Int
-    var start:Int
-    var display:Int
+    let total, start, display: Int
     let items: [Item]
 }
 
 // MARK: - Item
 struct Item: Codable {
     let title: String
-    let address: String
+    let link: String
+    let category, description, telephone, address: String
+    let roadAddress, mapx, mapy: String
 }
