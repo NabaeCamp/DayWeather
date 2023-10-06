@@ -7,34 +7,6 @@
 
 import Foundation
 
-//enum TemperatureRange {
-//
-//    case freezing
-//    case cold
-//    case moderate
-//    case warm
-//    case hot
-//    case scorching
-//
-//    func getDescription() -> String {
-//        switch self {
-//        case .freezing:
-//            return "It's freezing!"
-//        case .cold:
-//            return "It's cold."
-//        case .moderate:
-//            return "The temperature is moderate."
-//        case .warm:
-//            return "It's warm."
-//        case .hot:
-//            return "It's hot!"
-//        case .scorching:
-//            return "It's scorching!"
-//        }
-//    }
-//}
-
-
 protocol WearingDelegate:AnyObject {
     
     func updateView()
@@ -47,6 +19,8 @@ class WearingViewModel {
     
     var cityName: String?
     
+    var condition: String?
+    
     var temperature: String? {
         didSet {
             delegate?.updateView()
@@ -57,18 +31,16 @@ class WearingViewModel {
     private var weatherDataManager = WeatherDataManager.shared // 싱글턴 인스턴스 사용
     
     func fetchAndProcessWeatherData(lat: Double, lon: Double, completion: @escaping () -> Void) {
-        weatherDataManager.processWearingData(lat: lat, lon: lon) { [weak self] (temp, error) in
+        weatherDataManager.processWearingData(lat: lat, lon: lon) { [weak self] (temp,condition, error) in
             if let error = error {
                 print("Error processing weather data: \(error.localizedDescription)")
                 return
             }
             
             self?.temperature = temp
-            completion()
+            self?.condition = condition
             
-//            DispatchQueue.main.async {
-//                completion()
-//            }
+            completion()
         }
     }
 }
