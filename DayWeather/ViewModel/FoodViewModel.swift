@@ -12,20 +12,20 @@ class FoodViewModel {
     var temperature: String?
     var queryData: QueryModel?
     var foodPairing: [FoodPairing] = []
-    var dataUpdated: (() -> Void)?
     
+    // 날씨 데이터 호출
     func fetchWeatherData(lon: Double, lat: Double, completion: @escaping () -> Void) {
         weatherDataManager.processWeatherData(lat: lat, lon: lon) { [weak self] (city, temp, error) in
             if let error = error {
                 print("Error processing weather data: \(error.localizedDescription)")
                 return
             }
-            
             self?.temperature = temp
             completion()
         }
     }
     
+    // 지역 API 호출 함수
     func getLocation(locationX longitude: Double, locationY latitude: Double, handler: @escaping (GeoLocationModel?) -> Void) {
         let clientID: String = "0rhfpo643h"
         let clientSecretID: String = "lw4kFw37ygyaOqXkfkjaeyO3N7U5zy30Tl6NC524"
@@ -76,13 +76,13 @@ class FoodViewModel {
         task.resume()
     }
     
-    func requestAPI(location: GeoLocationModel, food: String? = nil, completion: @escaping () -> Void) {
+    func requestFoodAPI(location: GeoLocationModel, food: String? = nil, completion: @escaping () -> Void) {
         let detailLocation = location.results[0].region.area2.name
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         
         var baseURL = URLComponents(string: "https://openapi.naver.com/v1/search/local")
-        let param = URLQueryItem(name: "query", value: "\(detailLocation)\(food) 맛집")
+        let param = URLQueryItem(name: "query", value: "\(detailLocation) \(food!)")
         let display = URLQueryItem(name: "display", value: "10")
         
         baseURL?.queryItems = [param, display]
@@ -103,14 +103,12 @@ class FoodViewModel {
             }
             
             if let hasData = data {
+                print(String(data: hasData, encoding: .utf8))
                 do {
                     let decoder = JSONDecoder()
                     if let queryModel = try? decoder.decode(QueryModel.self, from: hasData) as QueryModel {
-                        // viewModel에 해당 데이터 저장(호출 한 데이터)
-                        /// 해당 데이터를 호출하는데 문제가 발생하고 있다
                         self.queryData = queryModel
                         completion()
-                        print("여기까지는 타고 있지?")
                     }
                 } catch {
                     print(error)
