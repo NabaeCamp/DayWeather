@@ -8,27 +8,32 @@
 import UIKit
 import SnapKit
 import NMapsMap
-import CoreLocation
 
 class FoodPairing: UIViewController {
-//MARK: - 전역 변수 선언
+    //MARK: - 전역 변수 선언
+    
     private let viewModel = FoodViewModel()
-    let imageAsset: [String] = (1...5).map({"Food\($0)"})
+    private let imageAsset: [(image: String, food: String)] = [
+        ("Food1", "순대국"),
+        ("Food2", "피자"),
+        ("Food3", "치킨"),
+        ("Food4", "아이스크림"),
+        ("Food5", "샐러드"),
+    ]
     var infoWindow = NMFInfoWindow()
     var defaultInfoWindoImage = NMFInfoWindowDefaultTextSource.data()
     var locationManager = LocationManager()
     var location: CLLocationCoordinate2D?
+    private var circleView: UIView!
+    private var tableviewDataSource: [String] = []
+//    private var marker: NMFMarker?
     
-//MARK: - UIComponent 선언
+    //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
-    let subDescriptionLabel     = makeLabel(withText: "이렇게", size: 12)
-    let descriptionLabel        = makeLabel(withText: "비가 오는 날이면...", size: 26)
+    let topDescriptionLabel     = makeThickLabel(withText: "비가 오는 날,", size: 30)
+    let descriptionLabel        = makeLabel(withText: "이렇게", size: 12)
+//    titleLabel.font = UIFont.boldSystemFont(ofSize: 30)
     let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
-    let nearbyInfoLabel         = makeLabel(withText: "테스트 라벨", size: 15)
-    let nearbyInfoLabel2        = makeLabel(withText: "테스트 라벨22", size: 15)
-    let tempLabel               = makeLabel(withText: "온도는 몇도입니다.", size: 15)
-    
-    let locationButton          = makeButton(withImage: "magnifyingglass", action: #selector(buttonHandler), target: self)
     let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
     
     private let scrollView: UIScrollView = {
@@ -52,7 +57,7 @@ class FoodPairing: UIViewController {
         return layout
     }()
     
-    lazy var collectionView: UICollectionView = {
+    lazy var foodCollectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout)
         collection.dataSource       = self
         collection.delegate         = self
@@ -76,8 +81,8 @@ class FoodPairing: UIViewController {
     
     lazy var nearbyTableView: UITableView = {
         let tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.dataSource        = self
+        tableView.delegate          = self
         tableView.register(StoreTableviewCell.self, forCellReuseIdentifier: StoreTableviewCell.identifier)
         return tableView
     }()
@@ -86,19 +91,17 @@ class FoodPairing: UIViewController {
         return naverMapView.mapView
     }
     
-//MARK: - UI Setup
+    //MARK: - UI Setup
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
-        [locationButton, subDescriptionLabel, descriptionLabel, collectionView,
-         secondDescriptionLabel, naverMapView, nearbyTableView, nearbyInfoLabel, nearbyInfoLabel2, tempLabel].forEach{ contentView.addSubview($0) }
+        [topDescriptionLabel, descriptionLabel, foodCollectionView,
+         secondDescriptionLabel, naverMapView, nearbyTableView].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
         setUIComponents()
         setCollectionView()
         setNaverMap()
         setNearbyTableView()
-        setNearbyInfo()
-        setupLocation()
     }
     
     func setBackground() {
@@ -126,29 +129,25 @@ class FoodPairing: UIViewController {
             make.trailing.equalToSuperview().inset(20)
         }
         
-        locationButton.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(26)
-            make.top.equalTo(contentView.snp.top).offset(50)
-        }
-        
-        subDescriptionLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(26)
-            make.top.equalTo(contentView.snp.top).offset(126)
+        topDescriptionLabel.snp.makeConstraints { make in
+//            make.top.equalTo(exitButton.snp.bottom).offset(80)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.top.equalTo(contentView.snp.top).offset(85)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(subDescriptionLabel.snp.bottom).offset(10)
+            make.top.equalTo(topDescriptionLabel.snp.bottom).offset(10)
             make.leading.equalTo(contentView.snp.leading).offset(26)
         }
         
         secondDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(9)
+            make.top.equalTo(foodCollectionView.snp.bottom).offset(9)
             make.leading.equalTo(contentView.snp.leading).offset(26)
         }
     }
     
     func setCollectionView() {
-        collectionView.snp.makeConstraints { make in
+        foodCollectionView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(19)
             make.leading.equalTo(contentView.snp.leading)
             make.trailing.equalTo(contentView.snp.trailing)
@@ -162,101 +161,78 @@ class FoodPairing: UIViewController {
         naverMapView.snp.makeConstraints { make in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.width.height.equalTo(353)
+            make.height.equalTo(353)
         }
     }
     
     func setNearbyTableView() {
         giveShadowAndRoundedCorners(to: nearbyTableView)
-
+        
         nearbyTableView.snp.makeConstraints { make in
             make.top.equalTo(naverMapView.snp.bottom).offset(20)
             make.leading.equalTo(contentView.snp.leading).offset(10)
             make.trailing.equalTo(contentView.snp.trailing).inset(10)
-            make.height.equalTo(300)
+            make.height.equalTo(250)
+            make.bottom.equalTo(contentView.snp.bottom).offset(10)
         }
     }
     
-    func setNearbyInfo() {
-        nearbyInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(nearbyTableView.snp.bottom).offset(20)
-            make.centerX.equalTo(contentView.snp.centerX)
+    func updateTableviewWithPickableListStre(pickableStr: String) {
+        tableviewDataSource.append(pickableStr)
+        nearbyTableView.reloadData()
+    }
+    
+    func drawCircle(_ point: CGPoint) {
+        if circleView == nil {
+            circleView = UIView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
+            circleView.layer.cornerRadius = circleView.frame.width/2
+            circleView.backgroundColor = .green
+            circleView.alpha = 0.3
+            circleView.isUserInteractionEnabled = false
+            naverMapView.addSubview(circleView)
         }
-        
-        nearbyInfoLabel2.snp.makeConstraints { make in
-            make.top.equalTo(nearbyInfoLabel.snp.bottom).offset(5)
-            make.centerX.equalTo(contentView.snp.centerX)
-        }
-        
-        tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(nearbyInfoLabel2.snp.bottom).offset(5)
-            make.centerX.equalTo(contentView.snp.centerX)
-            make.bottom.equalToSuperview().inset(100)
-        }
+        circleView.center = point
     }
     
     func setupLocation() {
-        locationManager.fetchLocation { [weak self] (location, error) in
+        self.locationManager.fetchLocation { [weak self] (location, error) in
             self?.location = location
         }
+        locationManager.stopUpdatingLocation()
     }
     
-    // MARK: - 변경 사항 - 날씨를 싱글톤으로 구현된 인스턴스에서 가져옵니다.
+    // MARK: - 날씨 데이터
     // 날씨 데이터를 가져오는 메서드
-    func fetchWeatherData(lat: Double, lon: Double) {
-        viewModel.fetchWeatherData(lat: lat, lon: lon) { [weak self] in
+    func fetchWeatherData(lon: Double, lat: Double) {
+        viewModel.fetchWeatherData(lon: lon, lat: lat) { [weak self] in
             DispatchQueue.main.async {
-                self?.tempLabel.text = self?.viewModel.temperature
-                self?.view.setNeedsDisplay()
-                
-                if let temperature = self?.viewModel.temperature {
-                    let temperatureValue = temperature.replacingOccurrences(of: "º", with: "")
-                    let newText: String
-                    
-                    if let tempValue = Double(temperatureValue) {
-                        switch tempValue {
-                        case ..<5: newText = "오늘 날씨가 춥네요!"
-                        case 5..<15: newText = "오늘 날씨는 괜찮아 보이네요!"
-                        case 15..<30: newText = "오늘 날씨가 덥네요!"
-                        default: newText = "온도를 호출하는데 오류가 있어요 😢"
-                        }
-                    } else {
-                        newText = "온도를 모르겠습니다."
-                        print(temperatureValue)
-                    }
-                    self?.secondDescriptionLabel.text = newText
+                guard let self = self else { return }
+                guard let temperature = self.viewModel.temperature,
+                      let tempValue = Double(temperature.replacingOccurrences(of: "º", with: "")) else {
+                    self.secondDescriptionLabel.text = "온도를 모르겠습니다."
+                    return
                 }
+                let newText = self.getWeatherDescription(forTemperature: tempValue)
+                self.secondDescriptionLabel.text = newText
             }
         }
     }
     
-    @objc func buttonHandler(_ sender: UIButton) {
-        if let unwrappedLocation = location {
-            print(unwrappedLocation)
-            DispatchQueue.main.async {
-                let latitude = unwrappedLocation.latitude
-                let longitude = unwrappedLocation.longitude
-                
-                self.nearbyInfoLabel.text = String("위도는 \(latitude)")
-                self.nearbyInfoLabel2.text = String("경도는 \(longitude)")
-                
-                print("위도는 \(latitude)")
-                print("경도는 \(longitude)")
-                
-                self.fetchWeatherData(lat: latitude, lon: longitude)
-                
-                self.viewModel.getLocation(locationX: longitude, locationY: latitude) { GeoLocationModel in
-                    if let GeoLocationModel = GeoLocationModel {
-                        print("지금 위치는 \(GeoLocationModel.name)")
-                        print("지금 위치는 \(GeoLocationModel.region)")
-                        print("지금 위치는 \(GeoLocationModel.region.area0)")
-                    } else {
-                        print("에러가 발생했습니다.")
-                    }
-                }
-            }
-        } else {
-            print("location is nil")
+    // 날씨 데이터를 활용해서 String 변환
+    func getWeatherDescription(forTemperature temperature: Double) -> String {
+        switch temperature {
+        case ..<5: return "오늘 날씨가 춥네요!"
+        case 5..<15: return "오늘 날씨는 괜찮아 보이네요!"
+        case 15..<30: return "오늘 날씨가 덥네요!"
+        default: return "온도를 호출하는데 오류가 있어요 😢"
+        }
+    }
+    
+    // MARK: - 검색 데이터(음식)
+    func getFoodLocation(location: GeoLocationModel, food: String? = nil, completion: @escaping () -> Void) {
+        viewModel.requestFoodAPI(location: location, food: food) {
+            completion()
+            print("값이 던져지고")
         }
     }
     
@@ -270,20 +246,32 @@ class FoodPairing: UIViewController {
     }
 }
 
-//MARK: - LifeCycle 정리
+//MARK: - LifeCycle
 extension FoodPairing {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         
-        //info 창 출력
-        mapView.touchDelegate = self
         infoWindow.dataSource = defaultInfoWindoImage
         infoWindow.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
             self?.infoWindow.close()
             return true
         }
         infoWindow.mapView = mapView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupLocation() // 일회성 현재 위치 확인
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let unwrappedLocation = location {
+            let latitude = unwrappedLocation.latitude
+            let longitude = unwrappedLocation.longitude
+            fetchWeatherData(lon: longitude, lat: latitude) // 날씨 상황 업데이트 -> 화면 표시
+        }
     }
 }
 
@@ -292,20 +280,47 @@ extension FoodPairing: UICollectionViewDelegate {
     
 }
 
+extension FoodPairing: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = collectionView.bounds.width / CGFloat(imageAsset.count)
+        let cellHeight = collectionView.bounds.height
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
+
 extension FoodPairing: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageAsset.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodCollectionViewCell.identifier, for: indexPath) as! FoodCollectionViewCell
-        let imageName = imageAsset[indexPath.item]
+        let imageName = imageAsset[indexPath.row].image
         cell.setImage(with: imageName)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("음식 \(indexPath.item + 1)번이 눌렸습니다.")
+        let foodName = imageAsset[indexPath.row].food
+        print(foodName)
+        
+        if let unwrappedLocation = location {
+            let latitude = unwrappedLocation.latitude
+            let longitude = unwrappedLocation.longitude
+            
+            self.viewModel.getLocation(locationX: longitude, locationY: latitude) { geoLocationModel in
+                if let geoLocationModel = geoLocationModel {
+                    self.getFoodLocation(location: geoLocationModel, food: foodName) {
+                        DispatchQueue.main.async {
+                            self.nearbyTableView.reloadData()
+                        }
+                    }
+                }
+            }
+        } else {
+            print("에러가 발생했습니다.")
+        }
     }
 }
 
@@ -316,39 +331,19 @@ extension FoodPairing: UITableViewDelegate {
 
 extension FoodPairing: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if let itemCount = viewModel.queryData?.items.count {
+            return itemCount
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoreTableviewCell.identifier, for: indexPath) as!  StoreTableviewCell
-        return cell
-    }
-}
-
-//MARK: - NMFMapViewTouchDelegate
-extension FoodPairing: NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        infoWindow.close()
-        
-        let latlngStr = String(format: "좌표:(%.5f, %.5f)", latlng.lat, latlng.lng)
-        defaultInfoWindoImage.title = latlngStr
-        infoWindow.position = latlng
-        infoWindow.open(with: mapView)
-    }
-}
-
-//MARK: - CLLocationManagerDelegate
-
-extension FoodPairing: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            print("위치 업데이트")
-            print("위도: \(location.coordinate.latitude)")
-            print("경도: \(location.coordinate.longitude)")
+        if let item = viewModel.queryData?.items[indexPath.row] {
+            cell.storeLabel.text = item.title
+            cell.descriptionLabel.text = item.address
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("에러가 발생했습니다: \(error.localizedDescription)")
+        return cell
     }
 }

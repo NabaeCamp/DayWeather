@@ -8,21 +8,24 @@
 import Foundation
 
 class FoodViewModel {
-    var temperature: String?
     private var weatherDataManager = WeatherDataManager.shared
+    var temperature: String?
+    var queryData: QueryModel?
+    var foodPairing: [FoodPairing] = []
     
-    func fetchWeatherData(lat: Double, lon: Double, completion: @escaping () -> Void) {
+    // 날씨 데이터 호출
+    func fetchWeatherData(lon: Double, lat: Double, completion: @escaping () -> Void) {
         weatherDataManager.processWeatherData(lat: lat, lon: lon) { [weak self] (city, temp, error) in
             if let error = error {
                 print("Error processing weather data: \(error.localizedDescription)")
                 return
             }
-            
             self?.temperature = temp
             completion()
         }
     }
     
+    // 지역 API 호출 함수
     func getLocation(locationX longitude: Double, locationY latitude: Double, handler: @escaping (GeoLocationModel?) -> Void) {
         let clientID: String = "0rhfpo643h"
         let clientSecretID: String = "lw4kFw37ygyaOqXkfkjaeyO3N7U5zy30Tl6NC524"
@@ -71,5 +74,48 @@ class FoodViewModel {
             }
         }
         task.resume()
+    }
+    
+    func requestFoodAPI(location: GeoLocationModel, food: String? = nil, completion: @escaping () -> Void) {
+        let detailLocation = location.results[0].region.area2.name
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        
+        var baseURL = URLComponents(string: "https://openapi.naver.com/v1/search/local")
+        let param = URLQueryItem(name: "query", value: "\(detailLocation) \(food!)")
+        let display = URLQueryItem(name: "display", value: "10")
+        
+        baseURL?.queryItems = [param, display]
+        guard let url = baseURL?.url else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("5jZ3ukktUdvCAob0qT3g", forHTTPHeaderField: "X-Naver-Client-Id")
+        request.setValue("7GcxPHxBai", forHTTPHeaderField: "X-Naver-Client-Secret")
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error as? HTTPURLResponse {
+                print("에러가 발생했습니다. \(error.statusCode)")
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                print("확인되는 reponse는 아래와 같습니다 \(response.statusCode)")
+            }
+            
+            if let hasData = data {
+                print(String(data: hasData, encoding: .utf8))
+                do {
+                    let decoder = JSONDecoder()
+                    if let queryModel = try? decoder.decode(QueryModel.self, from: hasData) as QueryModel {
+                        self.queryData = queryModel
+                        completion()
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
+        task.resume()
+        session.finishTasksAndInvalidate()
     }
 }

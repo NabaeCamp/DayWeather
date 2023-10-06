@@ -8,17 +8,16 @@
 import UIKit
 
 final class FoodCollectionViewCell: UICollectionViewCell {
-    
     static let identifier = "FoodCollectionViewCell"
     
     private lazy var imageView: UIImageView = {
-        let view    = UIImageView()
-        let image   = UIImage(systemName: "photo")
-        view.image  = image
-        view.contentMode = .scaleAspectFit
-        view.frame.size = CGSize(width: 60, height: 60)
+        let view                = UIImageView()
+        let image               = UIImage(systemName: "photo")
+        view.image              = image
+        view.contentMode        = .scaleAspectFit
+        view.frame.size         = CGSize(width: 60, height: 60)
         view.layer.cornerRadius = self.frame.width / 2
-        view.clipsToBounds = true
+        view.clipsToBounds      = true
         return view
     }()
     
@@ -39,6 +38,6 @@ final class FoodCollectionViewCell: UICollectionViewCell {
     }
     
     func setImage(with image: String) {
-        imageView.image = UIImage(named: image)
+        imageView.image         = UIImage(named: image)
     }
 }

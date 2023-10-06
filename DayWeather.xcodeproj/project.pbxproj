@@ -26,6 +26,7 @@
 		BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */; };
 		BD418B522ACCA6D7000F7539 /* GeoLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */; };
 		BD6E65FC2ACC10D2002BE276 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD6E65FB2ACC10D2002BE276 /* SnapKit */; };
+		BD84623D2ACE766000FCEC7A /* QueryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD84623C2ACE766000FCEC7A /* QueryModel.swift */; };
 		BDA8B0332AC27C2200D7F9DC /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */; };
 		BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A42AC1A32600540602 /* FoodPairing.swift */; };
 		BDB634A72AC1A46A00540602 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB634A62AC1A46A00540602 /* Factory.swift */; };
@@ -58,6 +59,7 @@
 		BD2F1FAD2AC7E2FA004B8DCC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BD3D8EA72ACDD2E200F49D19 /* StoreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollectionViewCell.swift; sourceTree = "<group>"; };
 		BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoLocationModel.swift; sourceTree = "<group>"; };
+		BD84623C2ACE766000FCEC7A /* QueryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryModel.swift; sourceTree = "<group>"; };
 		BDA8B0322AC27C2200D7F9DC /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDB634A42AC1A32600540602 /* FoodPairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPairing.swift; sourceTree = "<group>"; };
 		BDB634A62AC1A46A00540602 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				BD418B512ACCA6D7000F7539 /* GeoLocationModel.swift */,
+				BD84623C2ACE766000FCEC7A /* QueryModel.swift */,
 				26B7F1C62ACF99BA00E893AF /* PlayListModel.swift */,
 				079BA4652ACD7C0E00063715 /* Manager */,
 			);
@@ -337,6 +340,7 @@
 				BDB634A72AC1A46A00540602 /* Factory.swift in Sources */,
 				072D5C342AC12FB500A895BC /* WearingViewController.swift in Sources */,
 				BD3D8EA82ACDD2E200F49D19 /* StoreCollectionViewCell.swift in Sources */,
+				BD84623D2ACE766000FCEC7A /* QueryModel.swift in Sources */,
 				BDB634A52AC1A32600540602 /* FoodPairing.swift in Sources */,
 				BD25D3B42AC12DE500B08252 /* SceneDelegate.swift in Sources */,
 				BDE9AB9E2ACA73BF00445544 /* FoodViewModel.swift in Sources */,
