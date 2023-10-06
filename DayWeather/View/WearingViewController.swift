@@ -354,13 +354,24 @@ extension WearingViewController:WearingDelegate{
     func updateView() {
         DispatchQueue.main.async {
             //            let temperature = self.viewModel.temperature
+            let condition = self.viewModel.condition
             
-            let noticeMent: String
-            let titleMent: String
+            var noticeMent: String
+            var titleMent: String
             var headerMent = self.sectionHeaderTitle
-            if let temperature = self.viewModel.temperature{
+            
+             if let temperature = self.viewModel.temperature{
                 let temperatureValue = temperature.replacingOccurrences(of: "º", with: "")
-                if let value = Double(temperatureValue){
+                if condition == "Rain"{
+                    noticeMent = "우산을 챙겨두면 칭찬받을거에요 :)"
+                    titleMent = "비를 조심하세요"
+                    headerMent = "비를 대비한 최적의 룩"
+                    self.tempLabel.text = temperature
+                    self.noticeLabel.text = noticeMent
+                    self.titleLabel.text = titleMent
+                    self.sectionHeaderTitle = headerMent
+                    self.wearCollectionView.reloadData()
+                }else if let value = Double(temperatureValue), condition != "Rain"{
                     switch value {
                     case ..<0:
                         noticeMent = "저라면 나가지않을것 같은 추위군요"
@@ -375,9 +386,9 @@ extension WearingViewController:WearingDelegate{
                         titleMent = "일교차가 커요"
                         headerMent = "큰 일교차에 걸맞는 룩"
                     case 26...30:
-                        noticeMent = "우산을 챙겨두면 칭찬받을거에요 :)"
-                        titleMent = "비를 조심하세요"
-                        headerMent = "비를 대비한 최적의 룩"
+                        noticeMent = "날씨가 너무 좋아요 :)"
+                        titleMent = "산책 가기 좋아요"
+                        headerMent = "선선한 날씨에 어울리는 룩"
                     case 31...40:
                         noticeMent = "이런 날씨에 양산은 필수라구요."
                         titleMent = "밖은 너무 더워요"
@@ -386,17 +397,16 @@ extension WearingViewController:WearingDelegate{
                         noticeMent = "나가지 마세요."
                         titleMent = "위험한 날씨입니다"
                         headerMent = "이정도면 벗고 다니셔야겠어요"
-                        
                     }
                     self.tempLabel.text = temperature
                     self.noticeLabel.text = noticeMent
                     self.titleLabel.text = titleMent
                     self.sectionHeaderTitle = headerMent
-//                    self.titleLabel.text = titleMent
                     self.wearCollectionView.reloadData()
-
+//                    self.titleLabel.text = titleMent
                 }
             }
+            
         }
     }
     }
