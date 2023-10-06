@@ -13,15 +13,14 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     static let identifier = "PlayListCollectionViewCell"
     
     private let playListView = UIView()
-    private var albumCoverImageView = UIImageView()
-    private var songTitleLabel = UILabel()
-    private var singerNameLabel = UILabel()
+    var albumCoverImageView = UIImageView()
+    var songTitleLabel = UILabel()
+    var singerNameLabel = UILabel()
     private let musicInfoStackView = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -52,7 +51,7 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupAlbumCoverImageView() {
-        albumCoverImageView.image = UIImage(named: "albumCover")
+        //albumCoverImageView.image = UIImage(named: "albumCover")
         albumCoverImageView.layer.cornerRadius = 18
         albumCoverImageView.clipsToBounds = true
         playListView.addSubview(albumCoverImageView)
@@ -63,13 +62,13 @@ class PlayListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSongtitleLabel() {
-        songTitleLabel.text = "How You Like That"
+        //songTitleLabel.text = "How You Like That"
         songTitleLabel.textColor = .white
         songTitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
     func setupSingerNameLabel() {
-        singerNameLabel.text = "BLACKPINK"
+        //singerNameLabel.text = "BLACKPINK"
         singerNameLabel.textColor = .white
         singerNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
