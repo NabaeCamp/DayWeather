@@ -10,6 +10,7 @@ import UIKit
 func addImage(withImage image: String) -> UIImageView {
     let iv = UIImageView()
     let image = UIImage(named: image)
+    iv.contentMode = .scaleToFill
     iv.image = image
     iv.translatesAutoresizingMaskIntoConstraints = false
     return iv
@@ -20,8 +21,6 @@ func makeLabel(withText text: String, size: CGFloat) -> UILabel {
     label.text = text
     label.textColor = .white
     label.font = UIFont.systemFont(ofSize: size)
-    label.shadowColor = .black
-    label.shadowOffset = CGSize(width: 0, height: -1)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
 }
