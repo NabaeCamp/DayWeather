@@ -31,10 +31,9 @@ class FoodPairing: UIViewController {
     //MARK: - UIComponent 선언
     let backgroundImg           = addImage(withImage: "foodPairBG")
     let topDescriptionLabel     = makeThickLabel(withText: "비가 오는 날,", size: 30)
-    let descriptionLabel        = makeLabel(withText: "이렇게", size: 12)
-//    titleLabel.font = UIFont.boldSystemFont(ofSize: 30)
-    let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 20)
-    let exitButton              = makeButton(withImage: "x.circle.fill", action: #selector(exitButtonTapped), target: self)
+    let descriptionLabel        = makeLabel(withText: "이 떠오르지 않나요?", size: 12)
+//    let secondDescriptionLabel  = makeLabel(withText: "이 떠오르지 않나요?", size: 12)
+    let exitButton              = makeButton(withImage: "xmark", action: #selector(exitButtonTapped), target: self)
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -84,6 +83,7 @@ class FoodPairing: UIViewController {
         tableView.dataSource        = self
         tableView.delegate          = self
         tableView.register(StoreTableviewCell.self, forCellReuseIdentifier: StoreTableviewCell.identifier)
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -95,7 +95,7 @@ class FoodPairing: UIViewController {
     func setupUI() {
         [scrollView, backgroundImg, exitButton].forEach{ view.addSubview($0) }
         [topDescriptionLabel, descriptionLabel, foodCollectionView,
-         secondDescriptionLabel, naverMapView, nearbyTableView].forEach{ contentView.addSubview($0) }
+         naverMapView, nearbyTableView].forEach{ contentView.addSubview($0) }
         setBackground()
         enableScroll()
         setUIComponents()
@@ -130,27 +130,26 @@ class FoodPairing: UIViewController {
         }
         
         topDescriptionLabel.snp.makeConstraints { make in
-//            make.top.equalTo(exitButton.snp.bottom).offset(80)
             make.centerX.equalTo(contentView.snp.centerX)
             make.top.equalTo(contentView.snp.top).offset(85)
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(topDescriptionLabel.snp.bottom).offset(10)
-            make.leading.equalTo(contentView.snp.leading).offset(26)
+            make.centerX.equalTo(contentView.snp.centerX)
         }
         
-        secondDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(foodCollectionView.snp.bottom).offset(9)
-            make.leading.equalTo(contentView.snp.leading).offset(26)
-        }
+//        secondDescriptionLabel.snp.makeConstraints { make in
+//            make.top.equalTo(foodCollectionView.snp.bottom).offset(9)
+//            make.leading.equalTo(contentView.snp.leading).offset(26)
+//        }
     }
     
     func setCollectionView() {
         foodCollectionView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(19)
-            make.leading.equalTo(contentView.snp.leading)
-            make.trailing.equalTo(contentView.snp.trailing)
+            make.leading.equalTo(contentView.snp.leading).offset(10)
+            make.trailing.equalTo(contentView.snp.trailing).inset(10)
             make.height.equalTo(60)
         }
     }
@@ -159,7 +158,7 @@ class FoodPairing: UIViewController {
         giveShadowAndRoundedCorners(to: naverMapView)
         
         naverMapView.snp.makeConstraints { make in
-            make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(10)
+            make.top.equalTo(foodCollectionView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(353)
         }
@@ -209,11 +208,11 @@ class FoodPairing: UIViewController {
                 guard let self = self else { return }
                 guard let temperature = self.viewModel.temperature,
                       let tempValue = Double(temperature.replacingOccurrences(of: "º", with: "")) else {
-                    self.secondDescriptionLabel.text = "온도를 모르겠습니다."
+                    self.descriptionLabel.text = "온도를 모르겠습니다."
                     return
                 }
                 let newText = self.getWeatherDescription(forTemperature: tempValue)
-                self.secondDescriptionLabel.text = newText
+                self.descriptionLabel.text = newText
             }
         }
     }
@@ -281,11 +280,7 @@ extension FoodPairing: UICollectionViewDelegate {
 }
 
 extension FoodPairing: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = collectionView.bounds.width / CGFloat(imageAsset.count)
-        let cellHeight = collectionView.bounds.height
-        return CGSize(width: cellWidth, height: cellHeight)
-    }
+    
 }
 
 extension FoodPairing: UICollectionViewDataSource {
