@@ -48,11 +48,11 @@ class WearingViewController: UIViewController {
         UIImage(named: "s1-cloth5")!,
         ],
         [
-        UIImage(named: "s2-cloth1")!,
+        UIImage(named: "s2-cloth5")!,
         UIImage(named: "s2-cloth2")!,
         UIImage(named: "s2-cloth3")!,
         UIImage(named: "s2-cloth4")!,
-        UIImage(named: "s2-cloth5")!,
+        UIImage(named: "s2-cloth1")!,
         ],
         [
         UIImage(named: "s3-cloth1")!,
