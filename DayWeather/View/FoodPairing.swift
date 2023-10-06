@@ -207,12 +207,16 @@ class FoodPairing: UIViewController {
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 guard let temperature = self.viewModel.temperature,
+                      let condition = self.viewModel.condition,
                       let tempValue = Double(temperature.replacingOccurrences(of: "º", with: "")) else {
                     self.descriptionLabel.text = "온도를 모르겠습니다."
                     return
                 }
+                self.backgroundImg.image = self.changeBackgroundImage(when: condition)
+                let newLabelText = self.getCondition(forCondition: condition)
                 let newText = self.getWeatherDescription(forTemperature: tempValue)
                 self.descriptionLabel.text = newText
+                self.topDescriptionLabel.text = newLabelText
             }
         }
     }
@@ -225,6 +229,21 @@ class FoodPairing: UIViewController {
         case 15..<30: return "오늘 날씨가 덥네요!"
         default: return "온도를 호출하는데 오류가 있어요 😢"
         }
+    }
+    
+    func getCondition(forCondition condition: String) -> String {
+        switch condition {
+        case "Clouds": return "우중충한 하루"
+        case "Rain": return "쌀쌀한 하루"
+        case "Clear": return "쨍한 하루"
+        case "Atmosphere": return "좋은 날씨에요!"
+        default: return "온도를 호출하는데 오류가 있어요 😢"
+        }
+    }
+    
+    func changeBackgroundImage(when condition: String) -> UIImage? {
+        let bgImgAsset: [String: String] = ["Clouds": "foodPairBG", "Rain": "rainImage", "Clear": "MainImage", "Atmosphere" :"summerImage"]
+        return UIImage(named: bgImgAsset[condition] ?? "")
     }
     
     // MARK: - 검색 데이터(음식)
