@@ -12,14 +12,16 @@ class FoodViewModel {
     var temperature: String?
     var queryData: QueryModel?
     var foodPairing: [FoodPairing] = []
+    var condition: String?
     
     // 날씨 데이터 호출
     func fetchWeatherData(lon: Double, lat: Double, completion: @escaping () -> Void) {
-        weatherDataManager.processWeatherData(lat: lat, lon: lon) { [weak self] (city, temp, error) in
+        weatherDataManager.processWearingData(lat: lat, lon: lon) { [weak self] (temp, condition, error) in
             if let error = error {
                 print("Error processing weather data: \(error.localizedDescription)")
                 return
             }
+            self?.condition = condition
             self?.temperature = temp
             completion()
         }
