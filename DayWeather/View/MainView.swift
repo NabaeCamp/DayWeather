@@ -84,7 +84,7 @@ class MainView: UIViewController {
             make.height.equalTo(320)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20) // 화면 오른쪽 끝에서 20의 간격을 유지
-            make.top.equalToSuperview().offset(340)
+            make.top.equalToSuperview().offset(330)
         }
     }
     
@@ -97,7 +97,7 @@ class MainView: UIViewController {
             make.height.equalTo(320)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20) // 화면 오른쪽 끝에서 20의 간격을 유지
-            make.top.equalToSuperview().offset(340)
+            make.top.equalToSuperview().offset(330)
         }
 
 
@@ -169,10 +169,10 @@ class MainView: UIViewController {
         let label = UILabel()
         view.addSubview(label)
 
-        label.text = "나의 위치"
+        label.text = ""
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 36)
-        label.attributedText = NSMutableAttributedString(string: "나의 위치", attributes: [NSAttributedString.Key.kern: -0.04])
+        label.attributedText = NSMutableAttributedString(string: "오늘 날씨", attributes: [NSAttributedString.Key.kern: -0.04])
 
         // 그림자 효과
         label.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -186,7 +186,7 @@ class MainView: UIViewController {
             // make.width.equalTo(120)  // 이 줄을 제거
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(140)
+            make.top.equalToSuperview().offset(130)
         }
 
 
@@ -214,7 +214,7 @@ class MainView: UIViewController {
         cityLabel.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(176)
+            make.top.equalToSuperview().offset(166)
         }
     }
 
@@ -239,7 +239,7 @@ class MainView: UIViewController {
         temperatureLabel.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.centerX.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(210)
+            make.top.equalToSuperview().offset(200)
         }
         
     }
@@ -358,7 +358,7 @@ class MainView: UIViewController {
             make.width.equalTo(111)
             make.height.equalTo(110)
             make.leading.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(686)
+            make.top.equalToSuperview().offset(676)
         }
 
         // 버튼 액션 추가 (필요한 경우)
@@ -394,7 +394,7 @@ class MainView: UIViewController {
             make.width.equalTo(111)
             make.height.equalTo(110)
             make.leading.equalTo(self.view).offset(141)
-            make.top.equalToSuperview().offset(686)
+            make.top.equalToSuperview().offset(676)
         }
 
         // 버튼 액션 추가 (필요한 경우)
@@ -427,7 +427,7 @@ class MainView: UIViewController {
             make.width.equalTo(111)
             make.height.equalTo(110)
             make.leading.equalTo(self.view).offset(262)
-            make.top.equalToSuperview().offset(686)
+            make.top.equalToSuperview().offset(676)
         }
 
         // 버튼 액션 추가 (필요한 경우)
