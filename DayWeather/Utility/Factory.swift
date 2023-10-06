@@ -26,6 +26,14 @@ func makeLabel(withText text: String, size: CGFloat) -> UILabel {
     return label
 }
 
+func makeThickLabel(withText text: String, size: CGFloat) -> UILabel {
+    let label = UILabel()
+    label.text = text
+    label.textColor = .white
+    label.font = UIFont.boldSystemFont(ofSize: size)
+    return label
+}
+
 func makeButton(withImage name: String, action: Selector, target: Any) -> UIButton {
     let button = UIButton()
     let image = UIImage(systemName: name)?.withTintColor(.white, renderingMode: .alwaysOriginal)
