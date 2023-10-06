@@ -80,30 +80,29 @@ class PlayListViewModel {
             } else if currentTime >= calculateSunTime(sunsetTime) && currentTime <= sunsetTime {
                 //일몰 30분 전부터 일몰 때까지
                 completion(UIImage(named: "sunsetImage"), "같이 일몰 구경할까요?", [
-                    PlayList(albumCover: UIImage(named: "albumCover1"), song: "우산(Feat.윤하)", singer: "에픽하이"),
-                    PlayList(albumCover: UIImage(named: "albumCover2"), song: "빗소리", singer: "윤하"),
-                    PlayList(albumCover: UIImage(named: "albumCover3"), song: "비 오는 날 듣기 좋은 노래(Feat.Colde)", singer: "에픽하이"),
-                    PlayList(albumCover: UIImage(named: "albumCover4"), song: "북향(Feat.오혁)", singer: "다이나믹 듀오"),
-                    PlayList(albumCover: UIImage(named: "albumCover5"), song: "비도 오고 그래서", singer: "헤이즈"),
-                    PlayList(albumCover: UIImage(named: "albumCover6"), song: "잠 못 드는 밤 비는 내리고", singer: "김건모"),
-                    PlayList(albumCover: UIImage(named: "albumCover7"), song: "비", singer: "폴킴"),
-                    PlayList(albumCover: UIImage(named: "albumCover8"), song: "비가 오는 날엔", singer: "비스트"),
-                    PlayList(albumCover: UIImage(named: "albumCover9"), song: "비가 오잖아", singer: "소유 & 오반"),
-                    PlayList(albumCover: UIImage(named: "albumCover10"), song: "밤편지", singer: "아이유")
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover1"), song: "Sunsetz", singer: "Cigarettes After Sex"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover2"), song: "Everything", singer: "검정치마"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover3"), song: "Climb On Your Tears", singer: "The Paper Kites"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover4"), song: "Fallen", singer: "Gert Taberner"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover5"), song: "Gravity", singer: "Coldplay"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover3"), song: "By My Side", singer: "The Paper Kites"),
+                    PlayList(albumCover: UIImage(named: "sunriseAlbumCover1"), song: "Places We Won’t Walk", singer: "Bruno Major"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover8"), song: "Don’t You Worry", singer: "Oh Wonder"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover9"), song: "us", singer: "keshi"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover10"), song: "These Memories", singer: "Hollow Coves")
                 ])
             } else {
-                //변경하기
-                completion(UIImage(named: "rainImage"), "비가 내리네요", [
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover1"), song: "우산(Feat.윤하)", singer: "에픽하이"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover2"), song: "빗소리", singer: "윤하"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover3"), song: "비 오는 날 듣기 좋은 노래(Feat.Colde)", singer: "에픽하이"),
+                completion(UIImage(named: "MainImage"), "딱 좋은 날씨네요!", [
+                    PlayList(albumCover: UIImage(named: "sunriseAlbumCover6"), song: "Come Rain Or Come Shine", singer: "Billie Marten"),
+                    PlayList(albumCover: UIImage(named: "sunriseAlbumCover3"), song: "In What World", singer: "Lizzy McAlpine"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover2"), song: "Everything", singer: "검정치마"),
+                    PlayList(albumCover: UIImage(named: "sunsetAlbumCover3"), song: "Climb On Your Tears", singer: "The Paper Kites"),
+                    PlayList(albumCover: UIImage(named: "coldAlbumCover3"), song: "Goodbye", singer: "박효신"),
+                    PlayList(albumCover: UIImage(named: "coldAlbumCover4"), song: "마음을 드려요", singer: "아이유"),
                     PlayList(albumCover: UIImage(named: "rainyAlbumCover4"), song: "북향(Feat.오혁)", singer: "다이나믹 듀오"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover5"), song: "비도 오고 그래서", singer: "헤이즈"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover6"), song: "잠 못 드는 밤 비는 내리고", singer: "김건모"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover7"), song: "비", singer: "폴킴"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover8"), song: "비가 오는 날엔", singer: "비스트"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover9"), song: "비가 오잖아", singer: "소유 & 오반"),
-                    PlayList(albumCover: UIImage(named: "rainyAlbumCover10"), song: "밤편지", singer: "아이유")
+                    PlayList(albumCover: UIImage(named: "rainyAlbumCover10"), song: "밤편지", singer: "아이유"),
+                    PlayList(albumCover: UIImage(named: "hotAlbumCover5"), song: "비행기", singer: "거북이"),
+                    PlayList(albumCover: UIImage(named: "hotAlbumCover10"), song: "으쌰으쌰", singer: "신화")
                 ])
             }
         }

@@ -129,9 +129,7 @@ extension PlayListView: CLLocationManagerDelegate {
         
         playListViewModel.getDataForPlayListView(lat: lat, lon: lon) { [weak self] backgroundImage, titleText, playList in
             guard let self else { return }
-            
             self.playList = playList
-            print(playList)
             
             DispatchQueue.main.async {
                 self.backgroundImageView.image = backgroundImage
