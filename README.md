@@ -1,5 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=ff6d1c&height=300&section=header&text=☀️DayWeather%20&fontSize=90&fontColor=ffffff)
-
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=ff6d1c&height=300&section=header&text=☀️DayWeather%20&fontSize=90&fontColor=ffffff" />
+</p>
 # DayWeather 날씨 어플
 ## 어플 소개
 우리 하루의 시작과 끝을 책임지는 날씨.<br/>
